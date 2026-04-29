@@ -385,6 +385,10 @@ const VisualStage = ({ activeId }) => {
 const StepsSection = () => {
   const [activeStep, setActiveStep] = useState("01");
 
+  const handleStepTap = (stepId) => {
+    setActiveStep((current) => (current === stepId ? null : stepId));
+  };
+
   const steps = [
     {
       id: "01",
@@ -437,6 +441,7 @@ const StepsSection = () => {
               <motion.div 
                 key={step.id}
                 onMouseEnter={() => setActiveStep(step.id)}
+                onClick={() => handleStepTap(step.id)}
                 className={`relative group px-8 py-6 rounded-[32px] cursor-pointer transition-all duration-300 flex items-start gap-6 flex-1
                   ${activeStep === step.id 
                     ? 'bg-slate-50 shadow-[inset_8px_8px_16px_#d1d9e6,inset_-8px_-8px_16px_#ffffff]' 
@@ -462,6 +467,11 @@ const StepsSection = () => {
                   <motion.div layoutId="activeStepArrow" className="ml-auto mt-2 text-blue-500 flex-shrink-0">
                     <ArrowRight size={20} strokeWidth={3} />
                   </motion.div>
+                )}
+                {activeStep === step.id && (
+                  <div className="mt-6 w-full lg:hidden">
+                    <VisualStage activeId={step.id} />
+                  </div>
                 )}
               </motion.div>
             ))}

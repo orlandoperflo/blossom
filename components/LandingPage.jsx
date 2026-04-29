@@ -503,53 +503,53 @@ const MathSection = () => {
   return (
     <section id="math" className="py-20 md:py-32 px-4 sm:px-6 bg-[#f8faff] overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>
             <div className="inline-flex items-center gap-2 px-5 py-2 bg-white text-slate-600 rounded-full text-sm font-bold mb-8 uppercase tracking-widest shadow-sm">
               <TrendingUp size={18} />
               <span>Yield Optimization</span>
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter mb-10 leading-[0.95]">The Math of <br className="hidden sm:block" /> Efficiency.</h2>
-            <p className="text-xl text-slate-500 font-medium leading-relaxed mb-12 max-w-xl">
+            <p className="text-lg sm:text-xl text-slate-500 font-medium leading-relaxed mb-10 sm:mb-12 max-w-xl">
               Most teams focus on ad spend. We focus on Yield. Adjust the model below to calculate your specific revenue expansion.
             </p>
-            <div className="space-y-12">
-              <div className="space-y-6">
+            <div className="space-y-8 sm:space-y-12">
+              <div className="space-y-4 sm:space-y-6">
                 <div className="flex justify-between items-end">
                   <label className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Avg. Commission</label>
-                  <span className="text-3xl font-bold text-slate-900">{formatCurrency(commission)}</span>
+                  <span className="text-2xl sm:text-3xl font-bold text-slate-900">{formatCurrency(commission)}</span>
                 </div>
                 <input type="range" min="5000" max="50000" step="500" value={commission} onChange={(e) => setCommission(Number(e.target.value))} className="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" />
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <div className="flex justify-between items-end">
                   <label className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Annual Deals (Current)</label>
-                  <span className="text-3xl font-bold text-slate-900">{deals}</span>
+                  <span className="text-2xl sm:text-3xl font-bold text-slate-900">{deals}</span>
                 </div>
                 <input type="range" min="5" max="200" step="1" value={deals} onChange={(e) => setDeals(Number(e.target.value))} className="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" />
               </div>
             </div>
           </div>
           <div className="relative">
-            <div className="bg-slate-900 rounded-[32px] sm:rounded-[56px] p-6 sm:p-10 md:p-16 text-white shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] relative z-10">
-              <h3 className="text-2xl font-bold text-blue-400 mb-12 flex items-center gap-4"><Calculator size={24} /> 12-Month Projected Lift</h3>
-              <div className="space-y-10">
-                <div className="flex justify-between items-center pb-10 border-b border-white/10">
-                  <span className="text-slate-400 font-medium text-lg">Current Annual GCI</span>
+            <div className="bg-slate-900 rounded-[28px] sm:rounded-[56px] p-5 sm:p-10 md:p-16 text-white shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] relative z-10">
+              <h3 className="text-xl sm:text-2xl font-bold text-blue-400 mb-8 sm:mb-12 flex items-center gap-3 sm:gap-4"><Calculator size={24} /> 12-Month Projected Lift</h3>
+              <div className="space-y-6 sm:space-y-10">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 pb-6 sm:pb-10 border-b border-white/10">
+                  <span className="text-slate-400 font-medium text-base sm:text-lg">Current Annual GCI</span>
                   <span className="text-3xl font-bold">{formatCurrency(currentGCI)}</span>
                 </div>
-                <div className="flex justify-between items-center pb-10 border-b border-white/10">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 pb-6 sm:pb-10 border-b border-white/10">
                   <div className="flex flex-col">
-                    <span className="text-slate-400 font-medium text-lg">Blossom Recovery</span>
+                    <span className="text-slate-400 font-medium text-base sm:text-lg">Blossom Recovery</span>
                     <span className="text-xs font-bold text-green-400 uppercase tracking-widest mt-1">+{recoveryDeals} Addtl. Deals</span>
                   </div>
-                  <span className="text-4xl font-black text-green-400">+{formatCurrency(liftGCI)}</span>
+                  <span className="text-3xl sm:text-4xl font-black text-green-400">+{formatCurrency(liftGCI)}</span>
                 </div>
-                <div className="pt-6">
-                  <span className="text-xs font-black uppercase tracking-[0.3em] text-blue-400 block mb-4">Total GCI Potential</span>
+                <div className="pt-4 sm:pt-6">
+                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.22em] sm:tracking-[0.3em] text-blue-400 block mb-3 sm:mb-4">Total GCI Potential</span>
                   <div className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[1]">{formatCurrency(targetGCI)}</div>
                 </div>
-                <button className="w-full bg-blue-600 hover:bg-blue-500 py-5 sm:py-8 rounded-[20px] sm:rounded-[32px] font-black text-lg sm:text-2xl transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] mt-10">Apply for Installation</button>
+                <button className="w-full bg-blue-600 hover:bg-blue-500 py-4 sm:py-8 rounded-[18px] sm:rounded-[32px] font-black text-base sm:text-2xl transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] mt-6 sm:mt-10">Apply for Installation</button>
               </div>
             </div>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl" />
@@ -628,7 +628,7 @@ const LandingPage = () => {
                 <span>The Blossom Advantage</span>
               </div>
               <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-8 leading-none">Your lead source doesn't matter. <br className="hidden sm:block" /> Your speed does.</h2>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {[
                   "Integrates with Zillow, Realtor.com, Facebook Ads, and any tech stack you have.",
                   "Works 24/7, including holidays and 3 AM inquiries.",

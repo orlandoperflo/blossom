@@ -423,13 +423,13 @@ const StepsSection = () => {
   ];
 
   return (
-    <section className="bg-white py-20 md:py-32 px-4 sm:px-6 overflow-hidden relative">
+    <section className="bg-white py-32 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-left max-w-2xl">
           <div className="inline-block px-5 py-1.5 bg-slate-50 border border-slate-100 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] shadow-sm mb-6">
             Core Infrastructure
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br className="hidden sm:block" /> of Success.</h2>
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br /> of Success.</h2>
           <p className="text-xl text-slate-500 font-medium leading-relaxed">
             Five specialized layers working in perfect harmony to ensure no dollar is ever left on the table.
           </p>
@@ -442,7 +442,7 @@ const StepsSection = () => {
                 key={step.id}
                 onMouseEnter={() => setActiveStep(step.id)}
                 onClick={() => handleStepTap(step.id)}
-                className={`relative group px-8 py-6 rounded-[32px] cursor-pointer transition-all duration-300 flex flex-wrap items-start gap-6 flex-1
+                className={`relative group px-8 py-6 rounded-[32px] cursor-pointer transition-all duration-300 flex flex-wrap lg:flex-nowrap items-start gap-6 flex-1
                   ${activeStep === step.id 
                     ? 'bg-slate-50 shadow-[inset_8px_8px_16px_#d1d9e6,inset_-8px_-8px_16px_#ffffff]' 
                     : 'bg-white shadow-[12px_12px_24px_#d1d9e6,-12px_-12px_24px_#ffffff] hover:shadow-[6px_6px_12px_#d1d9e6,-6px_-6px_12px_#ffffff]'}

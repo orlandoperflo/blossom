@@ -442,7 +442,7 @@ const StepsSection = () => {
                 key={step.id}
                 onMouseEnter={() => setActiveStep(step.id)}
                 onClick={() => handleStepTap(step.id)}
-                className={`relative group px-8 py-6 rounded-[32px] cursor-pointer transition-all duration-300 flex items-start gap-6 flex-1
+                className={`relative group px-8 py-6 rounded-[32px] cursor-pointer transition-all duration-300 flex flex-wrap items-start gap-6 flex-1
                   ${activeStep === step.id 
                     ? 'bg-slate-50 shadow-[inset_8px_8px_16px_#d1d9e6,inset_-8px_-8px_16px_#ffffff]' 
                     : 'bg-white shadow-[12px_12px_24px_#d1d9e6,-12px_-12px_24px_#ffffff] hover:shadow-[6px_6px_12px_#d1d9e6,-6px_-6px_12px_#ffffff]'}
@@ -469,7 +469,7 @@ const StepsSection = () => {
                   </motion.div>
                 )}
                 {activeStep === step.id && (
-                  <div className="mt-6 w-full lg:hidden">
+                  <div className="mt-2 w-full basis-full lg:hidden">
                     <VisualStage activeId={step.id} />
                   </div>
                 )}

@@ -423,13 +423,13 @@ const StepsSection = () => {
   ];
 
   return (
-    <section className="bg-white py-32 px-6 overflow-hidden relative">
+    <section className="bg-white py-20 md:py-32 px-4 sm:px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-left max-w-2xl">
           <div className="inline-block px-5 py-1.5 bg-slate-50 border border-slate-100 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] shadow-sm mb-6">
             Core Infrastructure
           </div>
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br /> of Success.</h2>
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br className="hidden sm:block" /> of Success.</h2>
           <p className="text-xl text-slate-500 font-medium leading-relaxed">
             Five specialized layers working in perfect harmony to ensure no dollar is ever left on the table.
           </p>

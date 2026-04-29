@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, Settings, User, RefreshCcw,
@@ -107,7 +108,7 @@ const HeroAnimation = () => {
                     <p className="text-xs font-bold text-slate-500">+1 (555) 012-3456</p>
                     <p style={{ color: blossomBlue }} className="text-[10px] font-bold uppercase tracking-widest">Active</p>
                   </div>
-                  <img src={clientAvatar} className="w-9 h-9 rounded-full object-cover border border-white shadow-sm" alt="client" />
+                  <Image src={clientAvatar} width={36} height={36} className="w-9 h-9 rounded-full object-cover border border-white shadow-sm" alt="client" />
                 </div>
               </header>
               <div 
@@ -119,7 +120,7 @@ const HeroAnimation = () => {
                   {visibleMessages.map((msg) => (
                     <motion.div key={msg.id} initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3, ease: appleBezier }} className={`flex flex-col ${msg.role === 'agent' ? 'items-end' : 'items-start'}`}>
                       <div className={`max-w-[85%] sm:max-w-[75%] rounded-[22px] p-4 text-[14px] leading-relaxed shadow-sm ${msg.role === 'agent' ? 'bg-white text-slate-800 rounded-tr-none' : 'bg-[#E5E5E7] text-slate-700 rounded-tl-none'} ${msg.type === 'image' ? 'p-0 overflow-hidden ring-4 ring-white' : ''}`}>
-                        {msg.type === 'image' ? <img src={msg.content} className="w-full max-h-64 object-cover" alt="listing" /> : msg.content}
+                        {msg.type === 'image' ? <Image src={msg.content} width={800} height={420} className="w-full max-h-64 object-cover" alt="listing" /> : msg.content}
                       </div>
                     </motion.div>
                   ))}
@@ -227,7 +228,7 @@ const HeroAnimation = () => {
 
 const Avatar = ({ src, active = false }) => (
   <div className={`relative w-10 h-10 md:w-11 md:h-11 rounded-full p-0.5 transition-all ${active ? 'bg-white shadow-sm ring-1 ring-black/5' : 'grayscale opacity-40'}`}>
-    <img src={src} className="w-full h-full rounded-full object-cover" alt="user" />
+    <Image src={src} width={44} height={44} className="w-full h-full rounded-full object-cover" alt="user" />
     {active && <div className="absolute top-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />}
   </div>
 );
@@ -323,7 +324,7 @@ const VisualStage = ({ activeId }) => {
              </div>
              <div className="flex items-center gap-6 bg-white p-6 rounded-[32px] shadow-2xl border border-slate-100">
                 <div className="flex -space-x-3">
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" className="w-12 h-12 rounded-full border-4 border-white shadow-xl" alt="nurture-person" />
+                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" width={48} height={48} className="w-12 h-12 rounded-full border-4 border-white shadow-xl" alt="nurture-person" />
                   <div className="w-12 h-12 rounded-full bg-blue-600 border-4 border-white shadow-xl flex items-center justify-center text-white font-black text-sm">AI</div>
                 </div>
                 <div className="h-8 w-[1px] bg-slate-100" />
@@ -646,9 +647,11 @@ const LandingPage = () => {
             </div>
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent rounded-[60px]" />
-              <img 
+              <Image 
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" 
                 alt="Luxury Home" 
+                width={1200}
+                height={800}
                 className="w-full h-auto rounded-[60px] shadow-2xl"
               />
               <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-xl border border-black/5 max-w-xs">

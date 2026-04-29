@@ -73,23 +73,23 @@ const HeroAnimation = () => {
   }, [visibleMessages, typingState.active]);
 
   return (
-    <div className="relative min-h-[560px] sm:min-h-[650px] lg:min-h-[850px] flex items-start justify-center overflow-hidden py-8 sm:py-10 px-3 sm:px-4">
+    <div className="relative min-h-[650px] lg:min-h-[850px] flex items-start justify-center overflow-hidden py-10 px-4">
       <AnimatePresence mode="wait">
         {stage === 'intro_all' && (
           <motion.div key="intro_all" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, filter: "blur(20px)", scale: 0.95 }} transition={{ duration: 1 }} className="flex flex-col items-center justify-center text-center max-w-5xl mt-12 md:mt-20">
             <div className="w-full max-w-4xl mb-12 px-4">
-              <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] text-slate-800">
+              <h2 className="text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] text-slate-800">
                 Leads choose the first agent who responds. <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-black">So we built a system that puts you first — every time.</span>
               </h2>
             </div>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-lg sm:text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
               Watch How This Gets You Deals
             </motion.button>
           </motion.div>
         )}
 
         {stage === 'chat' && (
-          <motion.div key="chat-ui" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05, filter: 'blur(20px)' }} transition={{ duration: 1, ease: appleBezier }} className="relative w-full max-w-5xl h-[560px] sm:h-[600px] bg-[#F2F2F2] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.1)] flex overflow-hidden border border-white mt-10">
+          <motion.div key="chat-ui" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05, filter: 'blur(20px)' }} transition={{ duration: 1, ease: appleBezier }} className="relative w-full max-w-5xl h-[600px] bg-[#F2F2F2] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.1)] flex overflow-hidden border border-white mt-10">
             <div className="w-16 md:w-20 bg-white/40 backdrop-blur-md border-r border-black/5 flex flex-col items-center py-8 gap-8 flex-shrink-0">
               <div className="p-2.5 rounded-full bg-white shadow-sm border border-black/5"><Search size={20} className="text-slate-400" /></div>
               <div className="flex flex-col gap-6 flex-1">
@@ -144,7 +144,7 @@ const HeroAnimation = () => {
         {stage === 'notification' && (
           <motion.div key="notif-container" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 1 }} className="flex flex-col items-center gap-6 max-w-3xl text-center mt-20">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-400 font-medium text-xl italic mb-4">Get notified anywhere.</motion.p>
-            <motion.div key="notif" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleBezier }} className="bg-white p-5 sm:p-8 rounded-[28px] sm:rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 flex items-center gap-10">
+            <motion.div key="notif" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleBezier }} className="bg-white p-8 rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 flex items-center gap-10">
               <div className="relative w-12 h-12 flex items-center justify-center">
                 <AnimatePresence mode="wait">
                   {showPing ? (
@@ -163,7 +163,7 @@ const HeroAnimation = () => {
             <div className="flex flex-col items-center gap-3 mt-6">
               {["Instant Response", "Qualifies the lead", "Pushes to a booking"].map((benefit, idx) => (
                 <motion.div key={benefit} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.5 + (idx * 0.8), duration: 0.8, ease: appleBezier }}>
-                   <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-slate-700/80">{benefit}</span>
+                   <span className="text-2xl md:text-3xl font-bold tracking-tight text-slate-700/80">{benefit}</span>
                 </motion.div>
               ))}
             </div>
@@ -175,8 +175,8 @@ const HeroAnimation = () => {
               transition={{ delay: 4.5, duration: 1.2, ease: appleBezier }}
               className="mt-8 px-8"
             >
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
-                No matter where your leads come from, <br className="hidden sm:block" />
+              <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
+                No matter where your leads come from, <br />
                 <span className="text-blue-600">we integrate with every channel you have.</span>
               </h3>
             </motion.div>
@@ -185,10 +185,10 @@ const HeroAnimation = () => {
 
         {stage === 'accelerate' && (
           <motion.div key="accelerate" className="flex flex-col items-center px-6 text-center max-w-4xl mt-12 md:mt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
-            <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[1] mb-6">
-              Stop losing deals <br className="hidden sm:block" /> you already <span className="text-blue-600">paid for</span>.
+            <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[1] mb-6">
+              Stop losing deals <br /> you already <span className="text-blue-600">paid for</span>.
             </motion.h3>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xl sm:text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
             <div className="flex flex-col items-center gap-6">
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
               

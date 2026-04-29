@@ -73,23 +73,23 @@ const HeroAnimation = () => {
   }, [visibleMessages, typingState.active]);
 
   return (
-    <div className="relative min-h-[650px] lg:min-h-[850px] flex items-start justify-center overflow-hidden py-10 px-4">
+    <div className="relative min-h-[560px] sm:min-h-[650px] lg:min-h-[850px] flex items-start justify-center overflow-hidden py-8 sm:py-10 px-3 sm:px-4">
       <AnimatePresence mode="wait">
         {stage === 'intro_all' && (
           <motion.div key="intro_all" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, filter: "blur(20px)", scale: 0.95 }} transition={{ duration: 1 }} className="flex flex-col items-center justify-center text-center max-w-5xl mt-12 md:mt-20">
             <div className="w-full max-w-4xl mb-12 px-4">
-              <h2 className="text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] text-slate-800">
+              <h2 className="text-3xl sm:text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] text-slate-800">
                 Leads choose the first agent who responds. <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-black">So we built a system that puts you first — every time.</span>
               </h2>
             </div>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-lg sm:text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
               Watch How This Gets You Deals
             </motion.button>
           </motion.div>
         )}
 
         {stage === 'chat' && (
-          <motion.div key="chat-ui" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05, filter: 'blur(20px)' }} transition={{ duration: 1, ease: appleBezier }} className="relative w-full max-w-5xl h-[600px] bg-[#F2F2F2] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.1)] flex overflow-hidden border border-white mt-10">
+          <motion.div key="chat-ui" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05, filter: 'blur(20px)' }} transition={{ duration: 1, ease: appleBezier }} className="relative w-full max-w-5xl h-[560px] sm:h-[600px] bg-[#F2F2F2] rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.1)] flex overflow-hidden border border-white mt-10">
             <div className="w-16 md:w-20 bg-white/40 backdrop-blur-md border-r border-black/5 flex flex-col items-center py-8 gap-8 flex-shrink-0">
               <div className="p-2.5 rounded-full bg-white shadow-sm border border-black/5"><Search size={20} className="text-slate-400" /></div>
               <div className="flex flex-col gap-6 flex-1">
@@ -144,7 +144,7 @@ const HeroAnimation = () => {
         {stage === 'notification' && (
           <motion.div key="notif-container" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 1 }} className="flex flex-col items-center gap-6 max-w-3xl text-center mt-20">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-400 font-medium text-xl italic mb-4">Get notified anywhere.</motion.p>
-            <motion.div key="notif" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleBezier }} className="bg-white p-8 rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 flex items-center gap-10">
+            <motion.div key="notif" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleBezier }} className="bg-white p-5 sm:p-8 rounded-[28px] sm:rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 flex items-center gap-10">
               <div className="relative w-12 h-12 flex items-center justify-center">
                 <AnimatePresence mode="wait">
                   {showPing ? (
@@ -163,7 +163,7 @@ const HeroAnimation = () => {
             <div className="flex flex-col items-center gap-3 mt-6">
               {["Instant Response", "Qualifies the lead", "Pushes to a booking"].map((benefit, idx) => (
                 <motion.div key={benefit} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.5 + (idx * 0.8), duration: 0.8, ease: appleBezier }}>
-                   <span className="text-2xl md:text-3xl font-bold tracking-tight text-slate-700/80">{benefit}</span>
+                   <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-slate-700/80">{benefit}</span>
                 </motion.div>
               ))}
             </div>
@@ -175,8 +175,8 @@ const HeroAnimation = () => {
               transition={{ delay: 4.5, duration: 1.2, ease: appleBezier }}
               className="mt-8 px-8"
             >
-              <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
-                No matter where your leads come from, <br />
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
+                No matter where your leads come from, <br className="hidden sm:block" />
                 <span className="text-blue-600">we integrate with every channel you have.</span>
               </h3>
             </motion.div>
@@ -185,10 +185,10 @@ const HeroAnimation = () => {
 
         {stage === 'accelerate' && (
           <motion.div key="accelerate" className="flex flex-col items-center px-6 text-center max-w-4xl mt-12 md:mt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
-            <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[1] mb-6">
-              Stop losing deals <br /> you already <span className="text-blue-600">paid for</span>.
+            <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[1] mb-6">
+              Stop losing deals <br className="hidden sm:block" /> you already <span className="text-blue-600">paid for</span>.
             </motion.h3>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xl sm:text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
             <div className="flex flex-col items-center gap-6">
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
               
@@ -242,8 +242,8 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-black/5 py-3' : 'bg-transparent py-5'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="text-xl md:text-2xl font-black tracking-tighter text-slate-900">blossom accelerate</div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+        <div className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-slate-900">blossom accelerate</div>
         <button className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg active:scale-95 transition-transform">Get Started</button>
       </div>
     </nav>
@@ -334,7 +334,7 @@ const VisualStage = ({ activeId }) => {
       case "04":
         return (
           <motion.div key="v4" variants={containerVariants} initial="initial" animate="animate" exit="exit" className="w-full h-full flex items-center justify-center">
-             <div className="bg-white p-8 rounded-[40px] shadow-2xl border border-slate-50 flex flex-col items-center gap-6">
+             <div className="bg-white p-5 sm:p-8 rounded-[28px] sm:rounded-[40px] shadow-2xl border border-slate-50 flex flex-col items-center gap-6">
                 <div className="w-20 h-20 bg-green-50 rounded-3xl flex items-center justify-center text-green-500 shadow-inner">
                    <Target size={40} />
                 </div>
@@ -423,13 +423,13 @@ const StepsSection = () => {
   ];
 
   return (
-    <section className="bg-white py-32 px-6 overflow-hidden relative">
+    <section className="bg-white py-20 md:py-32 px-4 sm:px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-left max-w-2xl">
           <div className="inline-block px-5 py-1.5 bg-slate-50 border border-slate-100 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] shadow-sm mb-6">
             Core Infrastructure
           </div>
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br /> of Success.</h2>
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br className="hidden sm:block" /> of Success.</h2>
           <p className="text-xl text-slate-500 font-medium leading-relaxed">
             Five specialized layers working in perfect harmony to ensure no dollar is ever left on the table.
           </p>
@@ -501,7 +501,7 @@ const MathSection = () => {
   }).format(num);
 
   return (
-    <section id="math" className="py-32 px-6 bg-[#f8faff] overflow-hidden">
+    <section id="math" className="py-20 md:py-32 px-4 sm:px-6 bg-[#f8faff] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <div>
@@ -509,7 +509,7 @@ const MathSection = () => {
               <TrendingUp size={18} />
               <span>Yield Optimization</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-10 leading-[0.95]">The Math of <br /> Efficiency.</h2>
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter mb-10 leading-[0.95]">The Math of <br className="hidden sm:block" /> Efficiency.</h2>
             <p className="text-xl text-slate-500 font-medium leading-relaxed mb-12 max-w-xl">
               Most teams focus on ad spend. We focus on Yield. Adjust the model below to calculate your specific revenue expansion.
             </p>
@@ -531,7 +531,7 @@ const MathSection = () => {
             </div>
           </div>
           <div className="relative">
-            <div className="bg-slate-900 rounded-[56px] p-12 md:p-16 text-white shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] relative z-10">
+            <div className="bg-slate-900 rounded-[32px] sm:rounded-[56px] p-6 sm:p-10 md:p-16 text-white shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] relative z-10">
               <h3 className="text-2xl font-bold text-blue-400 mb-12 flex items-center gap-4"><Calculator size={24} /> 12-Month Projected Lift</h3>
               <div className="space-y-10">
                 <div className="flex justify-between items-center pb-10 border-b border-white/10">
@@ -547,9 +547,9 @@ const MathSection = () => {
                 </div>
                 <div className="pt-6">
                   <span className="text-xs font-black uppercase tracking-[0.3em] text-blue-400 block mb-4">Total GCI Potential</span>
-                  <div className="text-6xl md:text-8xl font-black tracking-tighter leading-[1]">{formatCurrency(targetGCI)}</div>
+                  <div className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[1]">{formatCurrency(targetGCI)}</div>
                 </div>
-                <button className="w-full bg-blue-600 hover:bg-blue-500 py-8 rounded-[32px] font-black text-2xl transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] mt-10">Apply for Installation</button>
+                <button className="w-full bg-blue-600 hover:bg-blue-500 py-5 sm:py-8 rounded-[20px] sm:rounded-[32px] font-black text-lg sm:text-2xl transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] mt-10">Apply for Installation</button>
               </div>
             </div>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl" />
@@ -567,18 +567,18 @@ const LandingPage = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-24 md:pt-32">
+      <section className="pt-20 md:pt-32">
         <HeroAnimation />
       </section>
 
       {/* Problems Section */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-20 md:py-32 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20 text-center">
-            <h2 className="text-4xl md:text-7xl font-extrabold tracking-tighter mb-8">Your Pipeline Is <br />Leaking Revenue.</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-7xl font-extrabold tracking-tighter mb-8">Your Pipeline Is <br className="hidden sm:block" /> Leaking Revenue.</h2>
             <p className="text-slate-400 text-2xl max-w-3xl mx-auto font-medium leading-relaxed italic">"Most real estate teams don't have a lead problem—they have an infrastructure problem."</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
             {[
               { title: "Slow Response", desc: "Leads go cold within 5 minutes. Most agents wait hours. Blossom responds in under 90 seconds, 24/7.", icon: <Zap /> },
               { title: "Zero Follow-up", desc: "80% of sales require 5+ follow-ups. Our engine never forgets a name or timeline.", icon: <Layers /> },
@@ -587,10 +587,10 @@ const LandingPage = () => {
               { title: "Manual Scaling", desc: "Your growth is capped by human capacity. Our system has infinite bandwidth for infinite leads.", icon: <Target /> },
               { title: "Disjointed Data", desc: "Deals slip through messy spreadsheets. We provide a clean, high-performance operating system.", icon: <MessageSquare /> },
             ].map((item, i) => (
-              <div key={i} className="p-12 border border-black/5 bg-slate-50/40 rounded-[56px] hover:bg-white hover:shadow-2xl transition-all duration-500 group">
+              <div key={i} className="p-6 sm:p-8 md:p-12 border border-black/5 bg-slate-50/40 rounded-[56px] hover:bg-white hover:shadow-2xl transition-all duration-500 group">
                 <div className="mb-10 text-blue-600 group-hover:scale-110 transition-transform duration-300">{React.cloneElement(item.icon, { size: 40, strokeWidth: 1.5 })}</div>
-                <h3 className="text-3xl font-black mb-6 tracking-tight">{item.title}</h3>
-                <p className="text-slate-500 text-lg leading-relaxed font-medium">{item.desc}</p>
+                <h3 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6 tracking-tight">{item.title}</h3>
+                <p className="text-slate-500 text-base sm:text-lg leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -604,10 +604,10 @@ const LandingPage = () => {
       <MathSection />
 
       {/* Features Section */}
-      <section id="features" className="py-32 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="features" className="py-20 md:py-32 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mb-24">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-10 leading-[0.95]">Designed to capture, <br />qualify, and convert.</h2>
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-10 leading-[0.95]">Designed to capture, <br className="hidden sm:block" /> qualify, and convert.</h2>
             <p className="text-2xl text-slate-500 font-medium leading-relaxed">We don't just send notifications. We build a fully automated agent that talks like you, learns like you, and books for you.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -619,15 +619,15 @@ const LandingPage = () => {
       </section>
 
       {/* Transformation Section */}
-      <section className="py-32 overflow-hidden bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-20 md:py-32 overflow-hidden bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-bold mb-8">
                 <ShieldCheck size={16} />
                 <span>The Blossom Advantage</span>
               </div>
-              <h2 className="text-5xl md:text-6xl font-bold tracking-tighter mb-8 leading-none">Your lead source doesn't matter. <br />Your speed does.</h2>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-8 leading-none">Your lead source doesn't matter. <br className="hidden sm:block" /> Your speed does.</h2>
               <div className="space-y-6">
                 {[
                   "Integrates with Zillow, Realtor.com, Facebook Ads, and any tech stack you have.",
@@ -666,12 +666,12 @@ const LandingPage = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 px-6 bg-white border-t border-black/5">
+      <section className="py-20 md:py-32 px-4 sm:px-6 bg-white border-t border-black/5">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-tight text-slate-900">
-            We recover the deals <br />you’re currently losing.
+          <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-tight text-slate-900">
+            We recover the deals <br className="hidden sm:block" /> you’re currently losing.
           </h2>
-          <p className="text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium">
             We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.
           </p>
           <div className="flex flex-col md:flex-row justify-center items-center gap-6">
@@ -682,7 +682,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <footer className="py-24 px-6 border-t border-black/5 bg-white">
+      <footer className="py-16 md:py-24 px-4 sm:px-6 border-t border-black/5 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-center items-center">
           <div className="text-2xl font-black tracking-tighter text-slate-900">blossom accelerate</div>
         </div>

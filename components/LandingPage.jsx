@@ -47,7 +47,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
     "Where do most of your leads come from?",
     "How fast are you replying right now?",
     "What happens after they message you?",
-    "Roughly how many inbound leads you get per week?"
+    "How many inbound leads you get per week?"
   ];
   const setupMicroResponses = [
     "Got it — mapping channels...",

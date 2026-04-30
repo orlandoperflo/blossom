@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 /** * HERO ANIMATION COMPONENT */
-const HeroAnimation = () => {
+const HeroAnimation = ({ onPrimaryCtaClick }) => {
   const [visibleMessages, setVisibleMessages] = useState([]);
   const [typingState, setTypingState] = useState({ active: false, role: 'agent' });
   const [stage, setStage] = useState('intro_all'); 
@@ -49,7 +49,6 @@ const HeroAnimation = () => {
     "What happens if you don’t reply fast?",
     "How many leads per month?"
   ];
-
   const setupMicroResponses = [
     "Got it — mapping channels...",
     "Nice — timing that window...",
@@ -208,7 +207,7 @@ const HeroAnimation = () => {
             </motion.h3>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
             <div className="flex flex-col items-center gap-6">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onPrimaryCtaClick} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
               
               {/* NEW ONBOARDING LIMIT TEXT */}
               <div className="flex flex-col items-center gap-6 mt-4">
@@ -250,7 +249,7 @@ const Avatar = ({ src, active = false }) => (
   </div>
 );
 
-const Navbar = () => {
+const Navbar = ({ onGetStartedClick }) => {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -262,7 +261,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-black/5 py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         <div className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-slate-900">blossom accelerate</div>
-        <button className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg active:scale-95 transition-transform">Get Started</button>
+        <button onClick={onGetStartedClick} className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg active:scale-95 transition-transform">Get Started</button>
       </div>
     </nav>
   );
@@ -593,13 +592,17 @@ const LandingPage = () => {
     "How many leads per month?"
   ];
 
+  const scrollToDealRecovery = () => {
+    document.getElementById("deal-recovery")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Navbar />
+      <Navbar onGetStartedClick={scrollToDealRecovery} />
       
       {/* Hero Section */}
       <section className="pt-20 md:pt-32">
-        <HeroAnimation />
+        <HeroAnimation onPrimaryCtaClick={scrollToDealRecovery} />
       </section>
 
       {/* Problems Section */}
@@ -697,7 +700,7 @@ const LandingPage = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 bg-white border-t border-black/5">
+      <section id="deal-recovery" className="py-20 md:py-32 px-4 sm:px-6 bg-white border-t border-black/5">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-tight text-slate-900">
             We recover the deals <br className="hidden sm:block" /> you’re currently losing.

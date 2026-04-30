@@ -754,13 +754,13 @@ const LandingPage = () => {
                   Book your setup call
                 </p>
                 <div
-                  className="w-full h-[760px] bg-white rounded-2xl overflow-hidden"
+                  className="setup-calendar-shell w-full h-[760px] bg-white rounded-2xl overflow-hidden"
                   style={{ backgroundColor: "#ffffff" }}
                 >
                   <iframe
                     title="Blossom Setup Call Calendar"
                     src="https://cal.com/blossom-accelerate/leads?layout=month_view"
-                    className="w-full h-full bg-white"
+                    className="setup-calendar-frame w-full h-full bg-white"
                     style={{ backgroundColor: "#ffffff", border: "0", boxShadow: "none" }}
                   />
                 </div>
@@ -782,6 +782,8 @@ const LandingPage = () => {
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 20px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
+        .setup-calendar-shell { background-color: #ffffff !important; border: 0 !important; box-shadow: none !important; }
+        .setup-calendar-frame { background-color: #ffffff !important; border: 0 !important; box-shadow: none !important; }
         
         input[type='range'] {
           -webkit-appearance: none;

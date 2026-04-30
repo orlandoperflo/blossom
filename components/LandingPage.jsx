@@ -584,6 +584,7 @@ const LandingPage = () => {
   const [setupInput, setSetupInput] = useState("");
   const [setupAnswers, setSetupAnswers] = useState([]);
   const [inputFocused, setInputFocused] = useState(false);
+  const [animatedQuestionText, setAnimatedQuestionText] = useState("");
 
   const setupQuestions = [
     "Where do most of your leads come from?",
@@ -595,6 +596,25 @@ const LandingPage = () => {
   const scrollToDealRecovery = () => {
     document.getElementById("deal-recovery")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  useEffect(() => {
+    if (!setupStarted || setupStep >= setupQuestions.length) return;
+
+    const fullQuestion = setupQuestions[setupStep];
+    setAnimatedQuestionText("");
+    let charIndex = 0;
+
+    const typeInterval = window.setInterval(() => {
+      charIndex += 1;
+      setAnimatedQuestionText(fullQuestion.slice(0, charIndex));
+
+      if (charIndex >= fullQuestion.length) {
+        window.clearInterval(typeInterval);
+      }
+    }, 28);
+
+    return () => window.clearInterval(typeInterval);
+  }, [setupStarted, setupStep]);
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
@@ -700,12 +720,12 @@ const LandingPage = () => {
       </section>
 
       {/* Final CTA */}
-      <section id="deal-recovery" className="py-20 md:py-32 px-4 sm:px-6 bg-white border-t border-black/5">
+      <section id="deal-recovery" className="py-14 md:py-20 px-4 sm:px-6 bg-white border-t border-black/5">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-tight text-slate-900">
             We recover the deals <br className="hidden sm:block" /> you’re currently losing.
           </h2>
-          <p className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-8 max-w-2xl mx-auto font-medium">
             We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.
           </p>
           <div className="flex flex-col justify-center items-center gap-6 w-full">
@@ -727,8 +747,11 @@ const LandingPage = () => {
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full max-w-3xl"
               >
-                <p className="text-center text-2xl sm:text-3xl md:text-4xl font-thin tracking-tight text-slate-900 mb-8 min-h-[3.5rem] md:min-h-[5rem] flex items-center justify-center">
-                  {setupQuestions[setupStep]}
+                <p className="text-center text-2xl sm:text-3xl md:text-4xl font-thin tracking-tight text-slate-900 mb-5 min-h-[3.25rem] md:min-h-[4.5rem] flex items-center justify-center">
+                  <span>
+                    {animatedQuestionText}
+                    <span className="inline-block w-[1px] h-[0.9em] ml-1 align-[-0.08em] bg-slate-700 animate-pulse" />
+                  </span>
                 </p>
                 <input
                   type="text"
@@ -744,7 +767,7 @@ const LandingPage = () => {
                     setSetupStep((prev) => prev + 1);
                   }}
                   placeholder={inputFocused ? "" : "Type and press Enter"}
-                  className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-3 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
+                  className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-2 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
                 />
               </motion.div>
             ) : (

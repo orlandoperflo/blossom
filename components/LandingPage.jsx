@@ -759,7 +759,7 @@ const LandingPage = () => {
                 >
                   <iframe
                     title="Blossom Setup Call Calendar"
-                    src="https://cal.com/blossom-accelerate/leads?layout=month_view"
+                    src="https://cal.com/blossom-accelerate/leads?layout=month_view&theme=light&backgroundColor=%23ffffff"
                     className="setup-calendar-frame w-full h-full bg-white"
                     style={{ backgroundColor: "#ffffff", border: "0", boxShadow: "none" }}
                   />

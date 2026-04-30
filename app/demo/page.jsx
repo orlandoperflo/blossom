@@ -1,6 +1,6 @@
 export default function DemoPage() {
   return (
-    <>
+    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
       <div style={{ padding: '75% 0 0 0', position: 'relative' }}>
         <iframe
           src="https://player.vimeo.com/video/1188239389?badge=0&autopause=0&player_id=0&app_id=58479"
@@ -12,6 +12,6 @@ export default function DemoPage() {
         ></iframe>
       </div>
       <script src="https://player.vimeo.com/api/player.js"></script>
-    </>
+    </div>
   )
 }

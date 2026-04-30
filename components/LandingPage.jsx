@@ -585,6 +585,7 @@ const LandingPage = () => {
   const [setupAnswers, setSetupAnswers] = useState([]);
   const [inputFocused, setInputFocused] = useState(false);
   const [animatedQuestionText, setAnimatedQuestionText] = useState("");
+  const [isQuestionTyping, setIsQuestionTyping] = useState(false);
 
   const setupQuestions = [
     "Where do most of your leads come from?",
@@ -602,6 +603,7 @@ const LandingPage = () => {
 
     const fullQuestion = setupQuestions[setupStep];
     setAnimatedQuestionText("");
+    setIsQuestionTyping(true);
     let charIndex = 0;
 
     const typeInterval = window.setInterval(() => {
@@ -610,10 +612,14 @@ const LandingPage = () => {
 
       if (charIndex >= fullQuestion.length) {
         window.clearInterval(typeInterval);
+        setIsQuestionTyping(false);
       }
     }, 28);
 
-    return () => window.clearInterval(typeInterval);
+    return () => {
+      window.clearInterval(typeInterval);
+      setIsQuestionTyping(false);
+    };
   }, [setupStarted, setupStep]);
 
   return (
@@ -753,22 +759,25 @@ const LandingPage = () => {
                     <span className="inline-block w-[1px] h-[0.9em] ml-1 align-[-0.08em] bg-slate-700 animate-pulse" />
                   </span>
                 </p>
-                <input
-                  type="text"
-                  value={setupInput}
-                  onChange={(e) => setSetupInput(e.target.value)}
-                  onFocus={() => setInputFocused(true)}
-                  onBlur={() => setInputFocused(false)}
-                  onKeyDown={(e) => {
-                    if (e.key !== "Enter" || !setupInput.trim()) return;
-                    const currentAnswer = setupInput.trim();
-                    setSetupAnswers((prev) => [...prev, currentAnswer]);
-                    setSetupInput("");
-                    setSetupStep((prev) => prev + 1);
-                  }}
-                  placeholder={inputFocused ? "" : "Type and press Enter"}
-                  className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-2 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
-                />
+                {!isQuestionTyping && (
+                  <input
+                    autoFocus
+                    type="text"
+                    value={setupInput}
+                    onChange={(e) => setSetupInput(e.target.value)}
+                    onFocus={() => setInputFocused(true)}
+                    onBlur={() => setInputFocused(false)}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter" || !setupInput.trim()) return;
+                      const currentAnswer = setupInput.trim();
+                      setSetupAnswers((prev) => [...prev, currentAnswer]);
+                      setSetupInput("");
+                      setSetupStep((prev) => prev + 1);
+                    }}
+                    placeholder={inputFocused ? "" : "Type and press Enter"}
+                    className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-2 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
+                  />
+                )}
               </motion.div>
             ) : (
               <motion.div

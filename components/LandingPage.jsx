@@ -18,6 +18,10 @@ const HeroAnimation = () => {
   const [stage, setStage] = useState('intro_all'); 
   const [showPing, setShowPing] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [setupStep, setSetupStep] = useState(0);
+  const [setupInput, setSetupInput] = useState("");
+  const [setupAnswers, setSetupAnswers] = useState([]);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const scrollContainerRef = useRef(null);
 
   const clientAvatar = "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&q=80";
@@ -37,6 +41,20 @@ const HeroAnimation = () => {
     { id: 11, sender: 'Blossom Agent', type: 'text', content: 'I have Thursday at 2pm or Friday at 10am open — which works better?', role: 'agent', delay: 1200 },
     { id: 12, sender: '+1 (555) 012-3456', type: 'text', content: 'Thursday works. The place looks incredible.', role: 'client', delay: 1000 },
     { id: 13, sender: 'Blossom Agent', type: 'text', content: 'Booked. See you Thursday!', role: 'agent', delay: 1400 },
+  ];
+
+  const setupQuestions = [
+    "Where do most of your leads come from?",
+    "How fast are you replying right now?",
+    "What happens if you don’t reply fast?",
+    "How many leads per month?"
+  ];
+
+  const setupMicroResponses = [
+    "Got it — mapping channels...",
+    "Nice — timing that window...",
+    "Understood — risk checked...",
+    "Perfect — volume captured..."
   ];
 
   useEffect(() => {
@@ -214,7 +232,7 @@ const HeroAnimation = () => {
                 </motion.div>
               </div>
 
-              <button onClick={() => { setVisibleMessages([]); setStage('intro_all'); setHasStarted(false); setShowPing(false); }} className="flex items-center gap-2 text-slate-400 font-bold hover:text-slate-600 transition-colors uppercase tracking-widest text-xs mt-8">
+              <button onClick={() => { setVisibleMessages([]); setStage('intro_all'); setHasStarted(false); setShowPing(false); setSetupStep(0); setSetupInput(""); setSetupAnswers([]); setIsAnalyzing(false); }} className="flex items-center gap-2 text-slate-400 font-bold hover:text-slate-600 transition-colors uppercase tracking-widest text-xs mt-8">
                 <RefreshCcw size={14} /> Replay Experience
               </button>
             </div>
@@ -562,6 +580,19 @@ const MathSection = () => {
 };
 
 const LandingPage = () => {
+  const [setupStarted, setSetupStarted] = useState(false);
+  const [setupStep, setSetupStep] = useState(0);
+  const [setupInput, setSetupInput] = useState("");
+  const [setupAnswers, setSetupAnswers] = useState([]);
+  const [inputFocused, setInputFocused] = useState(false);
+
+  const setupQuestions = [
+    "Where do most of your leads come from?",
+    "How fast are you replying right now?",
+    "What happens if you don’t reply fast?",
+    "How many leads per month?"
+  ];
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
       <Navbar />
@@ -674,10 +705,63 @@ const LandingPage = () => {
           <p className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium">
             We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.
           </p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-            <button className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
-              Book Your Strategy Call <ArrowRight size={24} />
-            </button>
+          <div className="flex flex-col justify-center items-center gap-6 w-full">
+            {!setupStarted ? (
+              <motion.button
+                onClick={() => setSetupStarted(true)}
+                initial={{ opacity: 0, y: 16, scale: 0.98, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+              >
+                Book Your Strategy Call <ArrowRight size={24} />
+              </motion.button>
+            ) : setupStep < setupQuestions.length ? (
+              <motion.div
+                key={`final-setup-step-${setupStep}`}
+                initial={{ opacity: 0, y: 22, scale: 0.985, filter: "blur(12px)" }}
+                animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-3xl"
+              >
+                <p className="text-center text-2xl sm:text-3xl md:text-4xl font-thin tracking-tight text-slate-900 mb-8 min-h-[3.5rem] md:min-h-[5rem] flex items-center justify-center">
+                  {setupQuestions[setupStep]}
+                </p>
+                <input
+                  type="text"
+                  value={setupInput}
+                  onChange={(e) => setSetupInput(e.target.value)}
+                  onFocus={() => setInputFocused(true)}
+                  onBlur={() => setInputFocused(false)}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter" || !setupInput.trim()) return;
+                    const currentAnswer = setupInput.trim();
+                    setSetupAnswers((prev) => [...prev, currentAnswer]);
+                    setSetupInput("");
+                    setSetupStep((prev) => prev + 1);
+                  }}
+                  placeholder={inputFocused ? "" : "Type and press Enter"}
+                  className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-3 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-5xl"
+              >
+                <p className="text-center text-2xl md:text-3xl font-thin tracking-tight text-slate-900 mb-6">
+                  Book your setup call
+                </p>
+                <div className="w-full h-[760px] border border-slate-200 rounded-2xl overflow-hidden shadow-xl">
+                  <iframe
+                    title="Blossom Setup Call Calendar"
+                    src="https://cal.com/blossom-accelerate/leads?layout=month_view"
+                    className="w-full h-full"
+                  />
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </section>

@@ -756,18 +756,22 @@ const LandingPage = () => {
                 </AnimatePresence>
               </motion.div>
             ) : (
-              <motion.a
-                href="https://cal.com/blossom-accelerate/leads"
-                target="_blank"
-                rel="noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+                className="w-full max-w-5xl"
               >
-                Book your setup call <ArrowRight size={24} />
-              </motion.a>
+                <p className="text-center text-2xl md:text-3xl font-thin tracking-tight text-slate-900 mb-6">
+                  Book your setup call
+                </p>
+                <div className="w-full h-[760px] border border-slate-200 rounded-2xl overflow-hidden shadow-xl bg-white">
+                  <iframe
+                    title="Blossom Setup Call Calendar"
+                    src="https://cal.com/blossom-accelerate/leads?layout=month_view"
+                    className="w-full h-full"
+                  />
+                </div>
+              </motion.div>
             )}
           </div>
         </div>

@@ -51,10 +51,10 @@ const HeroAnimation = () => {
   ];
 
   const setupMicroResponses = [
-    "Nice — mapping your lead channels...",
-    "Got it — measuring your response window...",
-    "Understood — scoring missed-opportunity risk...",
-    "Perfect — estimating your monthly upside..."
+    "Got it — mapping channels...",
+    "Nice — timing that window...",
+    "Understood — risk checked...",
+    "Perfect — volume captured..."
   ];
 
   useEffect(() => {
@@ -585,6 +585,7 @@ const LandingPage = () => {
   const [setupInput, setSetupInput] = useState("");
   const [setupAnswers, setSetupAnswers] = useState([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
 
   const setupQuestions = [
     "Where do most of your leads come from?",
@@ -594,10 +595,10 @@ const LandingPage = () => {
   ];
 
   const setupMicroResponses = [
-    "Nice — mapping your lead channels...",
-    "Got it — measuring your response window...",
-    "Understood — scoring missed-opportunity risk...",
-    "Perfect — estimating your monthly upside..."
+    "Got it — mapping channels...",
+    "Nice — timing window...",
+    "Understood — risk checked...",
+    "Perfect — volume captured..."
   ];
 
   return (
@@ -722,13 +723,15 @@ const LandingPage = () => {
               </motion.button>
             ) : setupStep < setupQuestions.length ? (
               <motion.div key={`final-setup-step-${setupStep}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full max-w-4xl">
-                <p className="text-center text-4xl sm:text-5xl md:text-6xl font-thin tracking-tight text-slate-900 mb-8">
-                  {setupQuestions[setupStep]}
+                <p className="text-center text-3xl sm:text-4xl md:text-5xl font-thin tracking-tight text-slate-900 mb-8 min-h-[4.5rem] md:min-h-[6rem] flex items-center justify-center">
+                  {isAnalyzing ? setupMicroResponses[setupStep] : setupQuestions[setupStep]}
                 </p>
                 <input
                   type="text"
                   value={setupInput}
                   onChange={(e) => setSetupInput(e.target.value)}
+                  onFocus={() => setInputFocused(true)}
+                  onBlur={() => setInputFocused(false)}
                   onKeyDown={async (e) => {
                     if (e.key !== "Enter" || !setupInput.trim() || isAnalyzing) return;
                     const currentAnswer = setupInput.trim();
@@ -739,18 +742,15 @@ const LandingPage = () => {
                     setIsAnalyzing(false);
                     setSetupStep((prev) => prev + 1);
                   }}
-                  placeholder="Type and press Enter"
+                  placeholder={inputFocused ? "" : "Type and press Enter"}
                   className="w-full bg-transparent border-0 border-b border-slate-300 px-1 py-3 text-center text-lg md:text-2xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
                 />
                 <AnimatePresence>
                   {isAnalyzing && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5 flex items-center justify-center gap-3">
-                      <div className="flex gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
-                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.15s]" />
-                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.3s]" />
-                      </div>
-                      <p className="text-slate-500 font-medium">{setupMicroResponses[setupStep]}</p>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-4 flex items-center justify-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce [animation-delay:0.15s]" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce [animation-delay:0.3s]" />
                     </motion.div>
                   )}
                 </AnimatePresence>

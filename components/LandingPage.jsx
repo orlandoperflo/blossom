@@ -46,8 +46,8 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
   const setupQuestions = [
     "Where do most of your leads come from?",
     "How fast are you replying right now?",
-    "What happens if you don’t reply fast?",
-    "How many leads per month?"
+    "What happens after they message you?",
+    "Roughly how many inbound leads you get per week?"
   ];
   const setupMicroResponses = [
     "Got it — mapping channels...",
@@ -590,8 +590,8 @@ const LandingPage = () => {
   const setupQuestions = [
     "Where do most of your leads come from?",
     "How fast are you replying right now?",
-    "What happens if you don’t reply fast?",
-    "How many leads per month?"
+    "What happens after they message you?",
+    "Roughly how many inbound leads you get per week?"
   ];
 
   const scrollToDealRecovery = () => {

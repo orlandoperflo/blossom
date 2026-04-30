@@ -580,6 +580,7 @@ const MathSection = () => {
 };
 
 const LandingPage = () => {
+  const [setupStarted, setSetupStarted] = useState(false);
   const [setupStep, setSetupStep] = useState(0);
   const [setupInput, setSetupInput] = useState("");
   const [setupAnswers, setSetupAnswers] = useState([]);
@@ -712,17 +713,16 @@ const LandingPage = () => {
             We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.
           </p>
           <div className="flex flex-col justify-center items-center gap-6 w-full">
-            {setupStep < setupQuestions.length ? (
-              <motion.div
-                key={`final-setup-step-${setupStep}`}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-3xl rounded-3xl bg-slate-50 border border-slate-200 shadow-xl p-5 md:p-7"
+            {!setupStarted ? (
+              <motion.button
+                onClick={() => setSetupStarted(true)}
+                className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
               >
-                <p className="text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
-                  Quick setup ({setupStep + 1}/{setupQuestions.length})
-                </p>
-                <p className="text-left text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-4">
+                Book Your Strategy Call <ArrowRight size={24} />
+              </motion.button>
+            ) : setupStep < setupQuestions.length ? (
+              <motion.div key={`final-setup-step-${setupStep}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full max-w-4xl">
+                <p className="text-center text-4xl sm:text-5xl md:text-6xl font-thin tracking-tight text-slate-900 mb-8">
                   {setupQuestions[setupStep]}
                 </p>
                 <input
@@ -739,17 +739,12 @@ const LandingPage = () => {
                     setIsAnalyzing(false);
                     setSetupStep((prev) => prev + 1);
                   }}
-                  placeholder="Type your answer and press Enter"
-                  className="w-full rounded-2xl border border-slate-300 px-4 py-3 md:py-4 text-base md:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Type and press Enter"
+                  className="w-full bg-transparent border-0 border-b border-slate-300 px-1 py-3 text-center text-lg md:text-2xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
                 />
                 <AnimatePresence>
                   {isAnalyzing && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="mt-4 flex items-center gap-3 text-left"
-                    >
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5 flex items-center justify-center gap-3">
                       <div className="flex gap-1.5">
                         <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
                         <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.15s]" />

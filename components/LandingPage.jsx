@@ -100,7 +100,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
               </h2>
             </div>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
-              Watch how this <br className="md:hidden" /> gets you deals
+              Watch How This <br className="md:hidden" /> Gets You Deals
             </motion.button>
           </motion.div>
         )}

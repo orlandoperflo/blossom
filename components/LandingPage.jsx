@@ -46,8 +46,8 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
   const setupQuestions = [
     "Where do most of your leads come from?",
     "How fast are you replying right now?",
-    "What happens if you don’t reply fast?",
-    "How many leads per month?"
+    "What happens after they message you?",
+    "Roughly how many inbound leads you get per week?"
   ];
   const setupMicroResponses = [
     "Got it — mapping channels...",
@@ -590,13 +590,26 @@ const LandingPage = () => {
   const setupQuestions = [
     "Where do most of your leads come from?",
     "How fast are you replying right now?",
-    "What happens if you don’t reply fast?",
-    "How many leads per month?"
+    "What happens after they message you?",
+    "Roughly how many inbound leads you get per week?"
   ];
 
   const scrollToDealRecovery = () => {
     document.getElementById("deal-recovery")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  const calPrefillQuestionIds = ["leadsource", "howfast", "whathappens", "howmany"];
+  const calBookingUrl = (() => {
+    const params = new URLSearchParams({ layout: "month_view" });
+
+    setupAnswers.forEach((answer, index) => {
+      const fieldId = calPrefillQuestionIds[index];
+      if (!fieldId || !answer) return;
+      params.append(fieldId, answer);
+    });
+
+    return `https://cal.com/blossom-accelerate/leads?${params.toString()}`;
+  })();
 
   useEffect(() => {
     if (!setupStarted || setupStep >= setupQuestions.length) return;
@@ -793,7 +806,7 @@ const LandingPage = () => {
                 <div className="w-full h-[760px] border border-slate-200 rounded-2xl overflow-hidden shadow-xl">
                   <iframe
                     title="Blossom Setup Call Calendar"
-                    src="https://cal.com/blossom-accelerate/leads?layout=month_view"
+                    src={calBookingUrl}
                     className="w-full h-full"
                   />
                 </div>

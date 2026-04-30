@@ -722,8 +722,8 @@ const LandingPage = () => {
                 Book Your Strategy Call <ArrowRight size={24} />
               </motion.button>
             ) : setupStep < setupQuestions.length ? (
-              <motion.div key={`final-setup-step-${setupStep}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full max-w-4xl">
-                <p className="text-center text-3xl sm:text-4xl md:text-5xl font-thin tracking-tight text-slate-900 mb-8 min-h-[4.5rem] md:min-h-[6rem] flex items-center justify-center">
+              <motion.div key={`final-setup-step-${setupStep}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full max-w-3xl">
+                <p className="text-center text-2xl sm:text-3xl md:text-4xl font-thin tracking-tight text-slate-900 mb-8 min-h-[3.5rem] md:min-h-[5rem] flex items-center justify-center">
                   {isAnalyzing ? setupMicroResponses[setupStep] : setupQuestions[setupStep]}
                 </p>
                 <input
@@ -743,7 +743,7 @@ const LandingPage = () => {
                     setSetupStep((prev) => prev + 1);
                   }}
                   placeholder={inputFocused ? "" : "Type and press Enter"}
-                  className="w-full bg-transparent border-0 border-b border-slate-300 px-1 py-3 text-center text-lg md:text-2xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
+                  className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-3 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
                 />
                 <AnimatePresence>
                   {isAnalyzing && (

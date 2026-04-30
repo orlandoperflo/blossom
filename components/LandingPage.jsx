@@ -208,68 +208,7 @@ const HeroAnimation = () => {
             </motion.h3>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
             <div className="flex flex-col items-center gap-6">
-              {setupStep < setupQuestions.length ? (
-                <motion.div
-                  key={`setup-step-${setupStep}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="w-full max-w-3xl rounded-3xl bg-white border border-slate-200 shadow-xl p-5 md:p-7"
-                >
-                  <p className="text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
-                    Quick setup ({setupStep + 1}/{setupQuestions.length})
-                  </p>
-                  <p className="text-left text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-4">
-                    {setupQuestions[setupStep]}
-                  </p>
-                  <input
-                    type="text"
-                    value={setupInput}
-                    onChange={(e) => setSetupInput(e.target.value)}
-                    onKeyDown={async (e) => {
-                      if (e.key !== "Enter" || !setupInput.trim() || isAnalyzing) return;
-                      const currentAnswer = setupInput.trim();
-                      setSetupAnswers((prev) => [...prev, currentAnswer]);
-                      setSetupInput("");
-                      setIsAnalyzing(true);
-                      await new Promise((r) => setTimeout(r, 900));
-                      setIsAnalyzing(false);
-                      setSetupStep((prev) => prev + 1);
-                    }}
-                    placeholder="Type your answer and press Enter"
-                    className="w-full rounded-2xl border border-slate-300 px-4 py-3 md:py-4 text-base md:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <AnimatePresence>
-                    {isAnalyzing && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        className="mt-4 flex items-center gap-3 text-left"
-                      >
-                        <div className="flex gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
-                          <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.15s]" />
-                          <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.3s]" />
-                        </div>
-                        <p className="text-slate-500 font-medium">{setupMicroResponses[setupStep]}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ) : (
-                <motion.a
-                  href="https://cal.com/blossom-accelerate/leads"
-                  target="_blank"
-                  rel="noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl"
-                >
-                  Book your setup call
-                </motion.a>
-              )}
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
               
               {/* NEW ONBOARDING LIMIT TEXT */}
               <div className="flex flex-col items-center gap-6 mt-4">
@@ -641,6 +580,25 @@ const MathSection = () => {
 };
 
 const LandingPage = () => {
+  const [setupStep, setSetupStep] = useState(0);
+  const [setupInput, setSetupInput] = useState("");
+  const [setupAnswers, setSetupAnswers] = useState([]);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const setupQuestions = [
+    "Where do most of your leads come from?",
+    "How fast are you replying right now?",
+    "What happens if you don’t reply fast?",
+    "How many leads per month?"
+  ];
+
+  const setupMicroResponses = [
+    "Nice — mapping your lead channels...",
+    "Got it — measuring your response window...",
+    "Understood — scoring missed-opportunity risk...",
+    "Perfect — estimating your monthly upside..."
+  ];
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
       <Navbar />
@@ -753,10 +711,69 @@ const LandingPage = () => {
           <p className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium">
             We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.
           </p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-            <button className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
-              Book Your Strategy Call <ArrowRight size={24} />
-            </button>
+          <div className="flex flex-col justify-center items-center gap-6 w-full">
+            {setupStep < setupQuestions.length ? (
+              <motion.div
+                key={`final-setup-step-${setupStep}`}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-3xl rounded-3xl bg-slate-50 border border-slate-200 shadow-xl p-5 md:p-7"
+              >
+                <p className="text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
+                  Quick setup ({setupStep + 1}/{setupQuestions.length})
+                </p>
+                <p className="text-left text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-4">
+                  {setupQuestions[setupStep]}
+                </p>
+                <input
+                  type="text"
+                  value={setupInput}
+                  onChange={(e) => setSetupInput(e.target.value)}
+                  onKeyDown={async (e) => {
+                    if (e.key !== "Enter" || !setupInput.trim() || isAnalyzing) return;
+                    const currentAnswer = setupInput.trim();
+                    setSetupAnswers((prev) => [...prev, currentAnswer]);
+                    setSetupInput("");
+                    setIsAnalyzing(true);
+                    await new Promise((r) => setTimeout(r, 900));
+                    setIsAnalyzing(false);
+                    setSetupStep((prev) => prev + 1);
+                  }}
+                  placeholder="Type your answer and press Enter"
+                  className="w-full rounded-2xl border border-slate-300 px-4 py-3 md:py-4 text-base md:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <AnimatePresence>
+                  {isAnalyzing && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="mt-4 flex items-center gap-3 text-left"
+                    >
+                      <div className="flex gap-1.5">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
+                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.15s]" />
+                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce [animation-delay:0.3s]" />
+                      </div>
+                      <p className="text-slate-500 font-medium">{setupMicroResponses[setupStep]}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ) : (
+              <motion.a
+                href="https://cal.com/blossom-accelerate/leads"
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+              >
+                Book your setup call <ArrowRight size={24} />
+              </motion.a>
+            )}
           </div>
         </div>
       </section>

@@ -754,10 +754,7 @@ const LandingPage = () => {
                 className="w-full max-w-3xl"
               >
                 <p className="text-center text-2xl sm:text-3xl md:text-4xl font-thin tracking-tight text-slate-900 mb-5 min-h-[3.25rem] md:min-h-[4.5rem] flex items-center justify-center">
-                  <span>
-                    {animatedQuestionText}
-                    <span className="inline-block w-[1px] h-[0.9em] ml-1 align-[-0.08em] bg-slate-700 animate-pulse" />
-                  </span>
+                  <span>{animatedQuestionText}</span>
                 </p>
                 {!isQuestionTyping && (
                   <input

@@ -174,7 +174,7 @@ const HeroAnimation = () => {
               className="mt-8 px-8"
             >
               <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
-                No matter where your <br className="md:hidden" /> leads come from,
+                No matter where your <br className="md:hidden" /> leads come from, <br className="hidden md:block" />
                 <span className="text-blue-600">we integrate with <br className="md:hidden" /> every channel you have.</span>
               </h3>
             </motion.div>

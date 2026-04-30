@@ -100,7 +100,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
               </h2>
             </div>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
-              Watch How This Gets You Deals
+              Watch how this <br className="md:hidden" /> gets you deals
             </motion.button>
           </motion.div>
         )}
@@ -193,8 +193,8 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
               className="mt-8 px-8"
             >
               <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
-                No matter where your leads come from, <br />
-                <span className="text-blue-600">we integrate with every channel you have.</span>
+                No matter where your <br className="md:hidden" /> leads come from,
+                <span className="text-blue-600">we integrate with <br className="md:hidden" /> every channel you have.</span>
               </h3>
             </motion.div>
           </motion.div>
@@ -203,9 +203,9 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
         {stage === 'accelerate' && (
           <motion.div key="accelerate" className="flex flex-col items-center px-6 text-center max-w-4xl mt-12 md:mt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
             <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[1] mb-6">
-              Stop losing deals <br /> you already <span className="text-blue-600">paid for</span>.
+              Stop <br className="md:hidden" /> losing deals <br /> you already <span className="text-blue-600">paid for</span>.
             </motion.h3>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides who wins the deal.</motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides <br className="md:hidden" /> who wins the deal.</motion.p>
             <div className="flex flex-col items-center gap-6">
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onPrimaryCtaClick} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
               
@@ -217,7 +217,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
                   transition={{ delay: 1.2, duration: 1 }}
                   className="text-sm font-bold uppercase tracking-[0.25em] text-black max-w-2xl"
                 >
-                  We only onboard a few clients <br /> each month to set this up properly.
+                  WE ONLY ONBOARD <br className="md:hidden" /> A FEW CLIENTS <br /> each month to set this up properly.
                 </motion.p>
 
                 <motion.div
@@ -482,7 +482,7 @@ const StepsSection = () => {
                 </div>
                 {activeStep === step.id && (
                   <motion.div layoutId="activeStepArrow" className="ml-auto mt-2 text-blue-500 flex-shrink-0">
-                    <ArrowRight size={20} strokeWidth={3} />
+                    <ArrowRight size={20} strokeWidth={3} className="rotate-90 lg:rotate-0" />
                   </motion.div>
                 )}
                 {activeStep === step.id && (

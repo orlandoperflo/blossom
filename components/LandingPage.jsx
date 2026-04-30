@@ -753,11 +753,15 @@ const LandingPage = () => {
                 <p className="text-center text-2xl md:text-3xl font-thin tracking-tight text-slate-900 mb-6">
                   Book your setup call
                 </p>
-                <div className="w-full h-[760px] bg-white rounded-2xl overflow-hidden">
+                <div
+                  className="w-full h-[760px] bg-white rounded-2xl overflow-hidden"
+                  style={{ backgroundColor: "#ffffff" }}
+                >
                   <iframe
                     title="Blossom Setup Call Calendar"
                     src="https://cal.com/blossom-accelerate/leads?layout=month_view"
                     className="w-full h-full bg-white"
+                    style={{ backgroundColor: "#ffffff", border: "0", boxShadow: "none" }}
                   />
                 </div>
               </motion.div>

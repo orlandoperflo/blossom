@@ -1,5 +1,5 @@
-import LandingPage from '../components/LandingPage';
+import LandingPageShell from '../components/LandingPageShell';
 
 export default function HomePage() {
-  return <LandingPage />;
+  return <LandingPageShell />;
 }

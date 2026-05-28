@@ -9,7 +9,7 @@ import {
   MessageSquare, Globe, ArrowRight, CheckCircle2,
   Layers, TrendingUp, Calculator,
   PieChart, Cpu, Repeat, Mail, Smartphone,
-  Layout
+  Layout, Languages
 } from 'lucide-react';
 
 
@@ -516,7 +516,7 @@ const Avatar = ({ src, active = false }) => (
   </div>
 );
 
-const Navbar = ({ onGetStartedClick, language, onLanguageChange, onLanguageFocus, copy }) => {
+const Navbar = ({ onGetStartedClick, language, onLanguageChange, copy }) => {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -530,19 +530,39 @@ const Navbar = ({ onGetStartedClick, language, onLanguageChange, onLanguageFocus
         <div className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-slate-900">blossom accelerate</div>
         <div className="flex items-center gap-2 sm:gap-3">
           <button onClick={onGetStartedClick} className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg active:scale-95 transition-transform whitespace-nowrap">{copy.getStarted}</button>
-          <label className="sr-only" htmlFor="language-selector">{copy.languageLabel}</label>
-          <select
-            id="language-selector"
-            value={language}
-            onFocus={onLanguageFocus}
-            onChange={(event) => onLanguageChange(event.target.value)}
-            className="h-9 rounded-full border border-slate-200 bg-white/90 px-3 text-xs sm:text-sm font-black text-slate-700 shadow-lg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+          <div
+            className="group flex h-9 items-center gap-1 rounded-full border border-white/70 bg-white/80 p-1 pl-2 shadow-[0_12px_35px_rgba(15,23,42,0.10)] ring-1 ring-slate-900/[0.03] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_18px_45px_rgba(15,23,42,0.14)] focus-within:ring-2 focus-within:ring-blue-500/20"
+            role="group"
             aria-label={copy.languageLabel}
           >
-            {Object.values(LANGUAGES).map((option) => (
-              <option key={option.code} value={option.code}>{`${option.shortLabel} — ${option.label}`}</option>
-            ))}
-          </select>
+            <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-slate-950 via-slate-800 to-slate-600 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_6px_14px_rgba(15,23,42,0.20)]">
+              <Languages size={13} strokeWidth={1.8} aria-hidden="true" />
+              <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.9)]" />
+            </span>
+            {Object.values(LANGUAGES).map((option) => {
+              const isActive = option.code === language;
+
+              return (
+                <button
+                  key={option.code}
+                  type="button"
+                  onClick={() => onLanguageChange(option.code)}
+                  className={`relative min-w-9 rounded-full px-2.5 py-1 text-[11px] font-black tracking-[0.12em] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30 ${isActive ? 'text-slate-950' : 'text-slate-400 hover:text-slate-700'}`}
+                  aria-pressed={isActive}
+                  aria-label={`${copy.languageLabel}: ${option.label}`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeLanguagePill"
+                      className="absolute inset-0 rounded-full bg-slate-950/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]"
+                      transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">{option.shortLabel}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </nav>
@@ -865,10 +885,6 @@ const LandingPage = ({ initialLanguage = DEFAULT_LANGUAGE }) => {
 
   const getLanguageHref = (nextLanguage) => `/${nextLanguage}`;
 
-  const handleLanguageFocus = () => {
-    document.documentElement.lang = language;
-  };
-
   const handleLanguageChange = (nextLanguage) => {
     if (!TRANSLATIONS[nextLanguage]) return;
     setLanguage(nextLanguage);
@@ -918,7 +934,7 @@ const LandingPage = ({ initialLanguage = DEFAULT_LANGUAGE }) => {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Navbar onGetStartedClick={scrollToDealRecovery} language={language} onLanguageChange={handleLanguageChange} onLanguageFocus={handleLanguageFocus} copy={copy.nav} />
+      <Navbar onGetStartedClick={scrollToDealRecovery} language={language} onLanguageChange={handleLanguageChange} copy={copy.nav} />
       
       {/* Hero Section */}
       <section className="pt-20 md:pt-32">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, Settings, User, RefreshCcw,
@@ -13,6 +14,7 @@ import {
 
 
 const LANGUAGE_STORAGE_KEY = 'blossom-preferred-language';
+const DEFAULT_LANGUAGE = 'en';
 
 const LANGUAGES = {
   en: { code: 'en', label: 'English', shortLabel: 'EN' },
@@ -165,137 +167,137 @@ const TRANSLATIONS = {
       languageLabel: 'Idioma',
     },
     hero: {
-      headlineLead: 'Los leads eligen al primer agente que responde.',
-      headlineAccent: 'Por eso creamos un sistema que te pone primero — siempre.',
+      headlineLead: 'Los prospectos eligen al asesor que responde primero.',
+      headlineAccent: 'Por eso construimos un sistema que te pone al frente — siempre.',
       watchCtaTop: 'Mira cómo esto',
-      watchCtaBottom: 'te consigue clientes',
-      inboxTitle: 'Bandeja de leads',
+      watchCtaBottom: 'te genera citas',
+      inboxTitle: 'Bandeja de prospectos',
       active: 'Activo',
       inputPlaceholder: 'Escribe una respuesta...',
-      notificationIntro: 'Recibe notificaciones en cualquier lugar.',
-      bookedTitle: 'Tour de casa agendado',
-      bookedTime: 'Jueves a las 2 p. m.',
-      benefits: ['Respuesta instantánea', 'Califica el lead', 'Impulsa la reserva'],
+      notificationIntro: 'Recibe avisos estés donde estés.',
+      bookedTitle: 'Recorrido agendado',
+      bookedTime: 'Jueves, 2:00 p. m.',
+      benefits: ['Respuesta inmediata', 'Califica al prospecto', 'Lo lleva a una cita'],
       channelLead: 'Sin importar de dónde',
-      channelMiddle: 'vengan tus leads,',
+      channelMiddle: 'lleguen tus prospectos,',
       channelAccent: 'nos integramos con',
       channelAccentEnd: 'todos tus canales.',
       accelerateLead: 'Deja de',
-      accelerateMiddle: 'perder oportunidades',
+      accelerateMiddle: 'perder operaciones',
       accelerateBeforeAccent: 'por las que ya',
-      accelerateAccent: 'pagaste',
-      speed: 'La velocidad decide',
-      speedEnd: 'quién gana el trato.',
-      primaryCta: 'Empieza a capturar cada lead',
-      onboardingLimit: 'SOLO INCORPORAMOS',
+      accelerateAccent: 'invertiste',
+      speed: 'La velocidad define',
+      speedEnd: 'quién gana la operación.',
+      primaryCta: 'Empieza a capturar cada prospecto',
+      onboardingLimit: 'SOLO INTEGRAMOS',
       onboardingLimitMiddle: 'A POCOS CLIENTES',
-      onboardingLimitEnd: 'cada mes para configurarlo correctamente.',
+      onboardingLimitEnd: 'cada mes para configurarlo con precisión.',
       replay: 'Repetir experiencia',
       chatMessages: [
-        { id: 1, sender: '+1 (555) 012-3456', type: 'text', content: 'Hola, ¿108 Sky Tower sigue disponible?', role: 'client', delay: 800 },
-        { id: 2, sender: 'Agente Blossom', type: 'text', content: '¡Sí! Es una propiedad preciosa. Aquí tienes un vistazo a la sala principal.', role: 'agent', delay: 1200 },
-        { id: 3, sender: 'Agente Blossom', type: 'image', content: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', role: 'agent', delay: 600 },
-        { id: 4, sender: 'Agente Blossom', type: 'text', content: '¿Buscas mudarte pronto o solo estás explorando opciones?', role: 'agent', delay: 1000 },
-        { id: 5, sender: '+1 (555) 012-3456', type: 'text', content: 'Intento mudarme en los próximos meses.', role: 'client', delay: 800 },
-        { id: 6, sender: 'Agente Blossom', type: 'text', content: 'Entendido. ¿Ya tienes preaprobación o todavía estás en ese proceso?', role: 'agent', delay: 1200 },
+        { id: 1, sender: '+1 (555) 012-3456', type: 'text', content: 'Hola, ¿sigue disponible la propiedad 108 Sky Tower?', role: 'client', delay: 800 },
+        { id: 2, sender: 'Asesor Blossom', type: 'text', content: 'Sí, sigue disponible. Es una propiedad espectacular; te comparto una vista del área social.', role: 'agent', delay: 1200 },
+        { id: 3, sender: 'Asesor Blossom', type: 'image', content: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', role: 'agent', delay: 600 },
+        { id: 4, sender: 'Asesor Blossom', type: 'text', content: '¿Estás buscando mudarte pronto o apenas estás evaluando opciones?', role: 'agent', delay: 1000 },
+        { id: 5, sender: '+1 (555) 012-3456', type: 'text', content: 'Me gustaría moverme en los próximos meses.', role: 'client', delay: 800 },
+        { id: 6, sender: 'Asesor Blossom', type: 'text', content: 'Perfecto. ¿Ya cuentas con preaprobación o estás en ese proceso?', role: 'agent', delay: 1200 },
         { id: 7, sender: '+1 (555) 012-3456', type: 'text', content: 'Sí, ya tengo preaprobación.', role: 'client', delay: 800 },
-        { id: 8, sender: 'Agente Blossom', type: 'text', content: 'Perfecto — eso ayuda mucho.', role: 'agent', delay: 1000 },
-        { id: 10, sender: 'Agente Blossom', type: 'text', content: 'Según tu calendario, sería ideal verla esta semana.', role: 'agent', delay: 1400 },
-        { id: 11, sender: 'Agente Blossom', type: 'text', content: 'Tengo jueves a las 2 p. m. o viernes a las 10 a. m. disponibles — ¿qué te queda mejor?', role: 'agent', delay: 1200 },
-        { id: 12, sender: '+1 (555) 012-3456', type: 'text', content: 'El jueves funciona. El lugar se ve increíble.', role: 'client', delay: 1000 },
-        { id: 13, sender: 'Agente Blossom', type: 'text', content: 'Agendado. ¡Nos vemos el jueves!', role: 'agent', delay: 1400 },
+        { id: 8, sender: 'Asesor Blossom', type: 'text', content: 'Excelente — eso nos ayuda a avanzar con prioridad.', role: 'agent', delay: 1000 },
+        { id: 10, sender: 'Asesor Blossom', type: 'text', content: 'Por tu calendario, conviene verla esta misma semana.', role: 'agent', delay: 1400 },
+        { id: 11, sender: 'Asesor Blossom', type: 'text', content: 'Tengo jueves a las 2:00 p. m. o viernes a las 10:00 a. m. — ¿qué horario te acomoda mejor?', role: 'agent', delay: 1200 },
+        { id: 12, sender: '+1 (555) 012-3456', type: 'text', content: 'El jueves me funciona. La propiedad se ve increíble.', role: 'client', delay: 1000 },
+        { id: 13, sender: 'Asesor Blossom', type: 'text', content: 'Listo, quedó agendado. Nos vemos el jueves.', role: 'agent', delay: 1400 },
       ],
     },
     visuals: {
-      syncing: 'Sincronizando todas las entradas',
+      syncing: 'Sincronizando todos los canales',
       metrics: [
-        { label: 'Estimación de capital', val: 'Alta ($200k+)' },
-        { label: 'Puntaje de intención del comprador', val: '94/100' },
-        { label: 'Plazo inmediato', val: 'Listo ahora' },
+        { label: 'Plusvalía estimada', val: 'Alta ($200k+)' },
+        { label: 'Intención de compra', val: '94/100' },
+        { label: 'Tiempo de decisión', val: 'Listo ahora' },
       ],
-      followUp: '"Seguimiento que se siente humano..."',
-      meetingScheduled: 'Reunión agendada',
+      followUp: '"Seguimiento con tono humano y profesional..."',
+      meetingScheduled: 'Cita agendada',
       pushedToCrm: 'Enviado al CRM',
-      gciLift: 'AUMENTO DE GCI',
+      gciLift: 'CRECIMIENTO GCI',
     },
     steps: {
-      eyebrow: 'Infraestructura central',
+      eyebrow: 'Infraestructura comercial',
       titleLine1: 'La arquitectura',
-      titleLine2: 'del éxito.',
-      description: 'Cinco capas especializadas trabajando en perfecta armonía para que nunca quede dinero sobre la mesa.',
+      titleLine2: 'para cerrar más.',
+      description: 'Cinco capas especializadas trabajan en sincronía para que ningún prospecto de alto valor se quede sin atención.',
       items: [
-        { id: '01', title: 'Captura omnicanal', desc: 'Deja de ingresar leads manualmente. Sincronizamos al instante cada prospecto de Zillow, Meta, Google y tu sitio web en un solo motor de intake unificado.' },
-        { id: '02', title: 'Calificación inteligente', desc: 'No todos los leads valen lo mismo. Nuestra IA analiza datos de comportamiento y registros públicos para filtrar compradores serios y vendedores con alto capital.' },
-        { id: '03', title: 'Nutrición conversacional', desc: 'Implementamos secuencias persistentes de seguimiento multietapa por SMS y email que suenan indistinguibles de un agente de alto rendimiento.' },
-        { id: '04', title: 'Conversión sin fricción', desc: 'Cuando un lead califica, enviamos el prospecto de alta intención directamente a tu CRM y te notificamos por Slack o móvil para cerrar el trato.' },
-        { id: '05', title: 'Optimización del rendimiento', desc: 'Monitorea la velocidad de tu pipeline en tiempo real. Nuestra suite profunda de analítica identifica cuellos de botella y destaca tus fuentes de leads más rentables.' },
+        { id: '01', title: 'Captura omnicanal', desc: 'Deja de capturar prospectos a mano. Sincronizamos Zillow, Meta, Google, tu sitio web y tus fuentes actuales en un solo motor de atención.' },
+        { id: '02', title: 'Calificación inteligente', desc: 'No todos los prospectos tienen la misma intención. Nuestra IA identifica presupuesto, urgencia, perfil y señales de valor para priorizar oportunidades reales.' },
+        { id: '03', title: 'Seguimiento conversacional', desc: 'Activamos secuencias persistentes por SMS, WhatsApp y email con un tono natural, pulido y alineado a un asesor inmobiliario premium.' },
+        { id: '04', title: 'Conversión sin fricción', desc: 'Cuando el prospecto está listo, lo enviamos a tu CRM y te notificamos en Slack o móvil para que llegues a la conversación con contexto completo.' },
+        { id: '05', title: 'Optimización de desempeño', desc: 'Monitorea la velocidad de tu pipeline en tiempo real. Detectamos cuellos de botella y tus fuentes más rentables para invertir con mayor precisión.' },
       ],
     },
     math: {
-      locale: 'es-US',
-      eyebrow: 'Optimización del rendimiento',
+      locale: 'es-MX',
+      eyebrow: 'Optimización de rentabilidad',
       titleLine1: 'La matemática de la',
-      titleLine2: 'eficiencia.',
-      description: 'La mayoría de los equipos se enfoca en inversión publicitaria. Nosotros nos enfocamos en rendimiento. Ajusta el modelo para calcular tu expansión de ingresos específica.',
+      titleLine2: 'conversión.',
+      description: 'La mayoría de los equipos mira el gasto publicitario. Nosotros optimizamos el rendimiento de cada prospecto. Ajusta el modelo para estimar tu crecimiento potencial.',
       avgCommission: 'Comisión promedio',
-      annualDeals: 'Tratos anuales (actuales)',
-      projectedLift: 'Aumento proyectado a 12 meses',
+      annualDeals: 'Operaciones anuales actuales',
+      projectedLift: 'Crecimiento proyectado a 12 meses',
       currentGci: 'GCI anual actual',
       recovery: 'Recuperación Blossom',
-      additionalDeals: 'Tratos adicionales',
+      additionalDeals: 'Operaciones adicionales',
       totalPotential: 'Potencial total de GCI',
-      cta: 'Solicitar instalación',
+      cta: 'Solicitar implementación',
     },
     problems: {
       titleLine1: 'Tu pipeline está',
-      titleLine2: 'perdiendo ingresos.',
-      quote: '"La mayoría de los equipos inmobiliarios no tiene un problema de leads; tiene un problema de infraestructura."',
+      titleLine2: 'dejando dinero en la mesa.',
+      quote: '"La mayoría de los equipos inmobiliarios no tiene un problema de prospectos; tiene un problema de velocidad, seguimiento e infraestructura."',
       cards: [
-        { title: 'Respuesta lenta', desc: 'Los leads se enfrían en menos de 5 minutos. La mayoría de los agentes espera horas. Blossom responde en menos de 90 segundos, 24/7.' },
-        { title: 'Cero seguimiento', desc: 'El 80% de las ventas requiere 5+ seguimientos. Nuestro motor nunca olvida un nombre ni un plazo.' },
-        { title: 'Volumen sin calificar', desc: 'Deja de perder horas con curiosos. Verificamos intención, plazo y presupuesto antes de que tomes el teléfono.' },
-        { title: 'Llamadas perdidas', desc: 'Cada llamada perdida es una comisión de $12k+ perdida. Blossom ofrece un intake institucional para cada llamada.' },
-        { title: 'Escalado manual', desc: 'Tu crecimiento está limitado por la capacidad humana. Nuestro sistema tiene ancho de banda infinito para leads infinitos.' },
-        { title: 'Datos desconectados', desc: 'Los tratos se pierden en hojas de cálculo desordenadas. Proporcionamos un sistema operativo limpio y de alto rendimiento.' },
+        { title: 'Respuesta tardía', desc: 'Un prospecto premium se enfría en minutos. Mientras otros asesores tardan horas, Blossom responde en menos de 90 segundos, 24/7.' },
+        { title: 'Seguimiento inconsistente', desc: 'La mayoría de las operaciones requiere múltiples seguimientos. Nuestro motor nunca olvida un nombre, un presupuesto ni una fecha objetivo.' },
+        { title: 'Volumen sin prioridad', desc: 'Deja de invertir horas en curiosos. Verificamos intención, plazo y capacidad antes de que tomes la llamada.' },
+        { title: 'Llamadas perdidas', desc: 'Cada llamada sin respuesta puede ser una comisión de alto valor perdida. Blossom ofrece atención institucional para cada contacto.' },
+        { title: 'Escala manual', desc: 'Tu crecimiento no debería depender de estar pegado al teléfono. El sistema atiende más prospectos sin sacrificar calidad.' },
+        { title: 'Datos dispersos', desc: 'Las oportunidades se pierden entre hojas de cálculo y chats. Centralizamos la operación en un flujo limpio, medible y de alto desempeño.' },
       ],
     },
     features: {
-      titleLine1: 'Diseñado para capturar,',
+      titleLine1: 'Diseñado para captar,',
       titleLine2: 'calificar y convertir.',
-      description: 'No solo enviamos notificaciones. Construimos un agente totalmente automatizado que habla como tú, aprende como tú y agenda por ti.',
+      description: 'No solo enviamos notificaciones. Construimos un agente automatizado que responde con tu tono, aprende tu operación y agenda citas calificadas por ti.',
       cards: [
-        { title: 'Respuesta en menos de 5 segundos', desc: 'Nuestro sistema interactúa con cada lead en menos de 5 segundos. En real estate, ser primero no es solo una ventaja: es la única forma de ganar.' },
-        { title: 'Calificación inteligente', desc: 'Nuestra IA hace las preguntas correctas: plazo, presupuesto y preaprobación. Solo hablas con leads listos para transaccionar.' },
-        { title: 'Agendamiento automatizado', desc: 'Sincroniza tu calendario y deja que Accelerate maneje la programación. Tu único trabajo es llegar a la cita listo para firmar.' },
+        { title: 'Respuesta en menos de 5 segundos', desc: 'El sistema atiende cada prospecto casi al instante. En bienes raíces de alto valor, llegar primero no es ventaja: es requisito.' },
+        { title: 'Calificación inteligente', desc: 'La IA pregunta lo importante: zona, presupuesto, plazo, preaprobación e intención. Tú hablas con prospectos listos para avanzar.' },
+        { title: 'Agenda automatizada', desc: 'Sincroniza tu calendario y deja que Accelerate gestione los horarios. Tú solo llegas a la cita con el contexto correcto.' },
       ],
     },
     advantage: {
       eyebrow: 'La ventaja Blossom',
-      titleLine1: 'Tu fuente de leads no importa.',
+      titleLine1: 'La fuente del prospecto no importa.',
       titleLine2: 'Tu velocidad sí.',
       bullets: [
-        'Se integra con Zillow, Realtor.com, Facebook Ads y cualquier stack tecnológico que tengas.',
-        'Funciona 24/7, incluidos feriados y consultas a las 3 a. m.',
-        'Soporte multicanal (SMS, WhatsApp, email y más).',
-        'Sincronización directa con CRM sin ingreso manual.',
+        'Se integra con Zillow, Realtor.com, Meta Ads, Google y el stack que ya usa tu equipo.',
+        'Opera 24/7, incluidos fines de semana, festivos y consultas de madrugada.',
+        'Atención multicanal por SMS, WhatsApp, email y más.',
+        'Sincronización directa con tu CRM sin captura manual.',
       ],
-      imageAlt: 'Casa de lujo',
-      stat: 'Aumento en la tasa de conversión de lead a tour',
+      imageAlt: 'Residencia de lujo',
+      stat: 'Aumento en conversión de prospecto a recorrido',
     },
     finalCta: {
-      titleLine1: 'Recuperamos los tratos',
-      titleLine2: 'que estás perdiendo ahora.',
-      description: 'Solo incorporamos a pocos clientes cada mes para garantizar que cada configuración esté optimizada para máxima conversión.',
+      titleLine1: 'Recuperamos las operaciones',
+      titleLine2: 'que hoy estás perdiendo.',
+      description: 'Solo incorporamos a pocos clientes cada mes para asegurar una implementación precisa, personalizada y optimizada para convertir.',
       button: 'Agenda tu llamada estratégica',
       questions: [
-        '¿De dónde vienen la mayoría de tus leads?',
-        '¿Qué tan rápido estás respondiendo ahora?',
-        '¿Qué pasa después de que te escriben?',
-        '¿Cuántos leads entrantes recibes por semana?',
+        '¿De dónde llegan la mayoría de tus prospectos?',
+        '¿En cuánto tiempo estás respondiendo hoy?',
+        '¿Qué sucede después de que te escriben?',
+        '¿Cuántos prospectos entrantes recibes por semana?',
       ],
       inputPlaceholder: 'Escribe y presiona Enter',
-      bookingPrompt: 'Agenda tu llamada de configuración',
-      calendarTitle: 'Calendario de llamada de configuración Blossom',
+      bookingPrompt: 'Agenda tu llamada de implementación',
+      calendarTitle: 'Calendario de implementación Blossom',
     },
   },
 };
@@ -514,7 +516,7 @@ const Avatar = ({ src, active = false }) => (
   </div>
 );
 
-const Navbar = ({ onGetStartedClick, language, onLanguageChange, copy }) => {
+const Navbar = ({ onGetStartedClick, language, onLanguageChange, onLanguageFocus, copy }) => {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -532,6 +534,7 @@ const Navbar = ({ onGetStartedClick, language, onLanguageChange, copy }) => {
           <select
             id="language-selector"
             value={language}
+            onFocus={onLanguageFocus}
             onChange={(event) => onLanguageChange(event.target.value)}
             className="h-9 rounded-full border border-slate-200 bg-white/90 px-3 text-xs sm:text-sm font-black text-slate-700 shadow-lg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
             aria-label={copy.languageLabel}
@@ -823,8 +826,11 @@ const MathSection = ({ copy }) => {
   );
 };
 
-const LandingPage = () => {
-  const [language, setLanguage] = useState('en');
+const LandingPage = ({ initialLanguage = DEFAULT_LANGUAGE }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const normalizedInitialLanguage = TRANSLATIONS[initialLanguage] ? initialLanguage : DEFAULT_LANGUAGE;
+  const [language, setLanguage] = useState(normalizedInitialLanguage);
   const copy = TRANSLATIONS[language];
   const [setupStarted, setSetupStarted] = useState(false);
   const [setupStep, setSetupStep] = useState(0);
@@ -838,20 +844,35 @@ const LandingPage = () => {
   const problemIcons = [<Zap />, <Layers />, <ShieldCheck />, <BarChart3 />, <Target />, <MessageSquare />];
 
   useEffect(() => {
+    const pathLanguage = pathname?.split('/')[1];
+
+    if (pathLanguage && TRANSLATIONS[pathLanguage]) {
+      setLanguage(pathLanguage);
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, pathLanguage);
+      return;
+    }
+
     const savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
     if (savedLanguage && TRANSLATIONS[savedLanguage]) {
       setLanguage(savedLanguage);
     }
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     document.documentElement.lang = language;
     window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
   }, [language]);
 
+  const getLanguageHref = (nextLanguage) => `/${nextLanguage}`;
+
+  const handleLanguageFocus = () => {
+    document.documentElement.lang = language;
+  };
+
   const handleLanguageChange = (nextLanguage) => {
     if (!TRANSLATIONS[nextLanguage]) return;
     setLanguage(nextLanguage);
+    router.push(getLanguageHref(nextLanguage));
   };
 
   const scrollToDealRecovery = () => {
@@ -897,7 +918,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Navbar onGetStartedClick={scrollToDealRecovery} language={language} onLanguageChange={handleLanguageChange} copy={copy.nav} />
+      <Navbar onGetStartedClick={scrollToDealRecovery} language={language} onLanguageChange={handleLanguageChange} onLanguageFocus={handleLanguageFocus} copy={copy.nav} />
       
       {/* Hero Section */}
       <section className="pt-20 md:pt-32">

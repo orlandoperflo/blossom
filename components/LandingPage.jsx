@@ -11,8 +11,297 @@ import {
   Layout
 } from 'lucide-react';
 
+
+const LANGUAGE_STORAGE_KEY = 'blossom-preferred-language';
+
+const LANGUAGES = {
+  en: { code: 'en', label: 'English', shortLabel: 'EN' },
+  es: { code: 'es', label: 'Español', shortLabel: 'ES' },
+};
+
+const TRANSLATIONS = {
+  en: {
+    nav: {
+      getStarted: 'Get Started',
+      languageLabel: 'Language',
+    },
+    hero: {
+      headlineLead: 'Leads choose the first agent who responds.',
+      headlineAccent: 'So we built a system that puts you first — every time.',
+      watchCtaTop: 'Watch How This',
+      watchCtaBottom: 'Gets You Deals',
+      inboxTitle: 'Lead Inbox',
+      active: 'Active',
+      inputPlaceholder: 'Type a response...',
+      notificationIntro: 'Get notified anywhere.',
+      bookedTitle: 'Booked House Tour',
+      bookedTime: 'Thursday at 2pm',
+      benefits: ['Instant Response', 'Qualifies the lead', 'Pushes to a booking'],
+      channelLead: 'No matter where your',
+      channelMiddle: 'leads come from,',
+      channelAccent: 'we integrate with',
+      channelAccentEnd: 'every channel you have.',
+      accelerateLead: 'Stop',
+      accelerateMiddle: 'losing deals',
+      accelerateBeforeAccent: 'you already',
+      accelerateAccent: 'paid for',
+      speed: 'Speed decides',
+      speedEnd: 'who wins the deal.',
+      primaryCta: 'Start Capturing Every Lead',
+      onboardingLimit: 'WE ONLY ONBOARD',
+      onboardingLimitMiddle: 'A FEW CLIENTS',
+      onboardingLimitEnd: 'each month to set this up properly.',
+      replay: 'Replay Experience',
+      chatMessages: [
+        { id: 1, sender: '+1 (555) 012-3456', type: 'text', content: 'Hi, is 108 Sky Tower still available?', role: 'client', delay: 800 },
+        { id: 2, sender: 'Blossom Agent', type: 'text', content: "It is! Beautiful property. Here's a look at the main living area.", role: 'agent', delay: 1200 },
+        { id: 3, sender: 'Blossom Agent', type: 'image', content: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', role: 'agent', delay: 600 },
+        { id: 4, sender: 'Blossom Agent', type: 'text', content: 'Are you looking to move soon or just exploring options?', role: 'agent', delay: 1000 },
+        { id: 5, sender: '+1 (555) 012-3456', type: 'text', content: 'Trying to move in the next couple months.', role: 'client', delay: 800 },
+        { id: 6, sender: 'Blossom Agent', type: 'text', content: 'Got it. Have you already been pre-approved or still in that process?', role: 'agent', delay: 1200 },
+        { id: 7, sender: '+1 (555) 012-3456', type: 'text', content: 'Yeah I’m pre-approved already.', role: 'client', delay: 800 },
+        { id: 8, sender: 'Blossom Agent', type: 'text', content: 'Perfect — that helps a lot.', role: 'agent', delay: 1000 },
+        { id: 10, sender: 'Blossom Agent', type: 'text', content: 'Based on your timeline, it would be smart to see it this week.', role: 'agent', delay: 1400 },
+        { id: 11, sender: 'Blossom Agent', type: 'text', content: 'I have Thursday at 2pm or Friday at 10am open — which works better?', role: 'agent', delay: 1200 },
+        { id: 12, sender: '+1 (555) 012-3456', type: 'text', content: 'Thursday works. The place looks incredible.', role: 'client', delay: 1000 },
+        { id: 13, sender: 'Blossom Agent', type: 'text', content: 'Booked. See you Thursday!', role: 'agent', delay: 1400 },
+      ],
+    },
+    visuals: {
+      syncing: 'Syncing All Inlets',
+      metrics: [
+        { label: 'Equity Estimate', val: 'High ($200k+)' },
+        { label: 'Buyer Intent Score', val: '94/100' },
+        { label: 'Immediate Timeline', val: 'Ready Now' },
+      ],
+      followUp: '"Follow-up that feels human..."',
+      meetingScheduled: 'Meeting Scheduled',
+      pushedToCrm: 'Pushed to CRM',
+      gciLift: 'GCI LIFT',
+    },
+    steps: {
+      eyebrow: 'Core Infrastructure',
+      titleLine1: 'The Architecture',
+      titleLine2: 'of Success.',
+      description: 'Five specialized layers working in perfect harmony to ensure no dollar is ever left on the table.',
+      items: [
+        { id: '01', title: 'Omni-Channel Capture', desc: 'Stop manually entering leads. We instantly sync every prospect from Zillow, Meta, Google, and your website into one unified intake engine.' },
+        { id: '02', title: 'Intelligent Qualification', desc: 'Not all leads are created equal. Our AI analyzes behavioral data and public records to filter for serious buyers and high-equity sellers.' },
+        { id: '03', title: 'Conversational Nurture', desc: 'We deploy persistent, multi-step follow-up sequences across SMS and Email that sound indistinguishable from a top-producing agent.' },
+        { id: '04', title: 'Seamless Conversion', desc: 'Once a lead is qualified, we push the high-intent prospect directly into your CRM and notify you via Slack or Mobile to close the deal.' },
+        { id: '05', title: 'Performance Optimization', desc: 'Monitor your pipeline velocity in real-time. Our deep analytics suite identifies bottlenecks and highlights your most profitable lead sources.' },
+      ],
+    },
+    math: {
+      locale: 'en-US',
+      eyebrow: 'Yield Optimization',
+      titleLine1: 'The Math of',
+      titleLine2: 'Efficiency.',
+      description: 'Most teams focus on ad spend. We focus on Yield. Adjust the model below to calculate your specific revenue expansion.',
+      avgCommission: 'Avg. Commission',
+      annualDeals: 'Annual Deals (Current)',
+      projectedLift: '12-Month Projected Lift',
+      currentGci: 'Current Annual GCI',
+      recovery: 'Blossom Recovery',
+      additionalDeals: 'Addtl. Deals',
+      totalPotential: 'Total GCI Potential',
+      cta: 'Apply for Installation',
+    },
+    problems: {
+      titleLine1: 'Your Pipeline Is',
+      titleLine2: 'Leaking Revenue.',
+      quote: '"Most real estate teams don\'t have a lead problem—they have an infrastructure problem."',
+      cards: [
+        { title: 'Slow Response', desc: 'Leads go cold within 5 minutes. Most agents wait hours. Blossom responds in under 90 seconds, 24/7.' },
+        { title: 'Zero Follow-up', desc: '80% of sales require 5+ follow-ups. Our engine never forgets a name or timeline.' },
+        { title: 'Unqualified Volume', desc: 'Stop wasting hours on window shoppers. We verify intent, timeline, and budget before you pick up the phone.' },
+        { title: 'Missed Calls', desc: 'Every missed call is a $12k+ commission lost. Blossom provides an institutional intake for every ring.' },
+        { title: 'Manual Scaling', desc: 'Your growth is capped by human capacity. Our system has infinite bandwidth for infinite leads.' },
+        { title: 'Disjointed Data', desc: 'Deals slip through messy spreadsheets. We provide a clean, high-performance operating system.' },
+      ],
+    },
+    features: {
+      titleLine1: 'Designed to capture,',
+      titleLine2: 'qualify, and convert.',
+      description: "{copy.features.description}",
+      cards: [
+        { title: 'Sub-5 Second Response', desc: "Our system engages every lead in under 5 seconds. In real estate, being first isn't just an advantage—it's the only way to win." },
+        { title: 'Intelligent Qualification', desc: 'Our AI asks the right questions: Timeline, Budget, and Pre-approval. You only talk to leads that are ready to transact.' },
+        { title: 'Automated Booking', desc: 'Sync your calendar and let Accelerate handle the scheduling. Your only job is showing up to the appointment ready to sign.' },
+      ],
+    },
+    advantage: {
+      eyebrow: 'The Blossom Advantage',
+      titleLine1: "Your lead source doesn't matter.",
+      titleLine2: 'Your speed does.',
+      bullets: [
+        'Integrates with Zillow, Realtor.com, Facebook Ads, and any tech stack you have.',
+        'Works 24/7, including holidays and 3 AM inquiries.',
+        'Multi-channel support (SMS, WhatsApp, Email and more).',
+        'Direct-to-CRM syncing with no manual entry.',
+      ],
+      imageAlt: 'Luxury Home',
+      stat: 'Increase in lead-to-tour conversion rate',
+    },
+    finalCta: {
+      titleLine1: 'We recover the deals',
+      titleLine2: 'you’re currently losing.',
+      description: 'We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.',
+      button: 'Book Your Strategy Call',
+      questions: [
+        'Where do most of your leads come from?',
+        'How fast are you replying right now?',
+        'What happens after they message you?',
+        'How many inbound leads you get per week?',
+      ],
+      inputPlaceholder: 'Type and press Enter',
+      bookingPrompt: 'Book your setup call',
+      calendarTitle: 'Blossom Setup Call Calendar',
+    },
+  },
+  es: {
+    nav: {
+      getStarted: 'Comenzar',
+      languageLabel: 'Idioma',
+    },
+    hero: {
+      headlineLead: 'Los leads eligen al primer agente que responde.',
+      headlineAccent: 'Por eso creamos un sistema que te pone primero — siempre.',
+      watchCtaTop: 'Mira cómo esto',
+      watchCtaBottom: 'te consigue clientes',
+      inboxTitle: 'Bandeja de leads',
+      active: 'Activo',
+      inputPlaceholder: 'Escribe una respuesta...',
+      notificationIntro: 'Recibe notificaciones en cualquier lugar.',
+      bookedTitle: 'Tour de casa agendado',
+      bookedTime: 'Jueves a las 2 p. m.',
+      benefits: ['Respuesta instantánea', 'Califica el lead', 'Impulsa la reserva'],
+      channelLead: 'Sin importar de dónde',
+      channelMiddle: 'vengan tus leads,',
+      channelAccent: 'nos integramos con',
+      channelAccentEnd: 'todos tus canales.',
+      accelerateLead: 'Deja de',
+      accelerateMiddle: 'perder oportunidades',
+      accelerateBeforeAccent: 'por las que ya',
+      accelerateAccent: 'pagaste',
+      speed: 'La velocidad decide',
+      speedEnd: 'quién gana el trato.',
+      primaryCta: 'Empieza a capturar cada lead',
+      onboardingLimit: 'SOLO INCORPORAMOS',
+      onboardingLimitMiddle: 'A POCOS CLIENTES',
+      onboardingLimitEnd: 'cada mes para configurarlo correctamente.',
+      replay: 'Repetir experiencia',
+      chatMessages: [
+        { id: 1, sender: '+1 (555) 012-3456', type: 'text', content: 'Hola, ¿108 Sky Tower sigue disponible?', role: 'client', delay: 800 },
+        { id: 2, sender: 'Agente Blossom', type: 'text', content: '¡Sí! Es una propiedad preciosa. Aquí tienes un vistazo a la sala principal.', role: 'agent', delay: 1200 },
+        { id: 3, sender: 'Agente Blossom', type: 'image', content: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', role: 'agent', delay: 600 },
+        { id: 4, sender: 'Agente Blossom', type: 'text', content: '¿Buscas mudarte pronto o solo estás explorando opciones?', role: 'agent', delay: 1000 },
+        { id: 5, sender: '+1 (555) 012-3456', type: 'text', content: 'Intento mudarme en los próximos meses.', role: 'client', delay: 800 },
+        { id: 6, sender: 'Agente Blossom', type: 'text', content: 'Entendido. ¿Ya tienes preaprobación o todavía estás en ese proceso?', role: 'agent', delay: 1200 },
+        { id: 7, sender: '+1 (555) 012-3456', type: 'text', content: 'Sí, ya tengo preaprobación.', role: 'client', delay: 800 },
+        { id: 8, sender: 'Agente Blossom', type: 'text', content: 'Perfecto — eso ayuda mucho.', role: 'agent', delay: 1000 },
+        { id: 10, sender: 'Agente Blossom', type: 'text', content: 'Según tu calendario, sería ideal verla esta semana.', role: 'agent', delay: 1400 },
+        { id: 11, sender: 'Agente Blossom', type: 'text', content: 'Tengo jueves a las 2 p. m. o viernes a las 10 a. m. disponibles — ¿qué te queda mejor?', role: 'agent', delay: 1200 },
+        { id: 12, sender: '+1 (555) 012-3456', type: 'text', content: 'El jueves funciona. El lugar se ve increíble.', role: 'client', delay: 1000 },
+        { id: 13, sender: 'Agente Blossom', type: 'text', content: 'Agendado. ¡Nos vemos el jueves!', role: 'agent', delay: 1400 },
+      ],
+    },
+    visuals: {
+      syncing: 'Sincronizando todas las entradas',
+      metrics: [
+        { label: 'Estimación de capital', val: 'Alta ($200k+)' },
+        { label: 'Puntaje de intención del comprador', val: '94/100' },
+        { label: 'Plazo inmediato', val: 'Listo ahora' },
+      ],
+      followUp: '"Seguimiento que se siente humano..."',
+      meetingScheduled: 'Reunión agendada',
+      pushedToCrm: 'Enviado al CRM',
+      gciLift: 'AUMENTO DE GCI',
+    },
+    steps: {
+      eyebrow: 'Infraestructura central',
+      titleLine1: 'La arquitectura',
+      titleLine2: 'del éxito.',
+      description: 'Cinco capas especializadas trabajando en perfecta armonía para que nunca quede dinero sobre la mesa.',
+      items: [
+        { id: '01', title: 'Captura omnicanal', desc: 'Deja de ingresar leads manualmente. Sincronizamos al instante cada prospecto de Zillow, Meta, Google y tu sitio web en un solo motor de intake unificado.' },
+        { id: '02', title: 'Calificación inteligente', desc: 'No todos los leads valen lo mismo. Nuestra IA analiza datos de comportamiento y registros públicos para filtrar compradores serios y vendedores con alto capital.' },
+        { id: '03', title: 'Nutrición conversacional', desc: 'Implementamos secuencias persistentes de seguimiento multietapa por SMS y email que suenan indistinguibles de un agente de alto rendimiento.' },
+        { id: '04', title: 'Conversión sin fricción', desc: 'Cuando un lead califica, enviamos el prospecto de alta intención directamente a tu CRM y te notificamos por Slack o móvil para cerrar el trato.' },
+        { id: '05', title: 'Optimización del rendimiento', desc: 'Monitorea la velocidad de tu pipeline en tiempo real. Nuestra suite profunda de analítica identifica cuellos de botella y destaca tus fuentes de leads más rentables.' },
+      ],
+    },
+    math: {
+      locale: 'es-US',
+      eyebrow: 'Optimización del rendimiento',
+      titleLine1: 'La matemática de la',
+      titleLine2: 'eficiencia.',
+      description: 'La mayoría de los equipos se enfoca en inversión publicitaria. Nosotros nos enfocamos en rendimiento. Ajusta el modelo para calcular tu expansión de ingresos específica.',
+      avgCommission: 'Comisión promedio',
+      annualDeals: 'Tratos anuales (actuales)',
+      projectedLift: 'Aumento proyectado a 12 meses',
+      currentGci: 'GCI anual actual',
+      recovery: 'Recuperación Blossom',
+      additionalDeals: 'Tratos adicionales',
+      totalPotential: 'Potencial total de GCI',
+      cta: 'Solicitar instalación',
+    },
+    problems: {
+      titleLine1: 'Tu pipeline está',
+      titleLine2: 'perdiendo ingresos.',
+      quote: '"La mayoría de los equipos inmobiliarios no tiene un problema de leads; tiene un problema de infraestructura."',
+      cards: [
+        { title: 'Respuesta lenta', desc: 'Los leads se enfrían en menos de 5 minutos. La mayoría de los agentes espera horas. Blossom responde en menos de 90 segundos, 24/7.' },
+        { title: 'Cero seguimiento', desc: 'El 80% de las ventas requiere 5+ seguimientos. Nuestro motor nunca olvida un nombre ni un plazo.' },
+        { title: 'Volumen sin calificar', desc: 'Deja de perder horas con curiosos. Verificamos intención, plazo y presupuesto antes de que tomes el teléfono.' },
+        { title: 'Llamadas perdidas', desc: 'Cada llamada perdida es una comisión de $12k+ perdida. Blossom ofrece un intake institucional para cada llamada.' },
+        { title: 'Escalado manual', desc: 'Tu crecimiento está limitado por la capacidad humana. Nuestro sistema tiene ancho de banda infinito para leads infinitos.' },
+        { title: 'Datos desconectados', desc: 'Los tratos se pierden en hojas de cálculo desordenadas. Proporcionamos un sistema operativo limpio y de alto rendimiento.' },
+      ],
+    },
+    features: {
+      titleLine1: 'Diseñado para capturar,',
+      titleLine2: 'calificar y convertir.',
+      description: 'No solo enviamos notificaciones. Construimos un agente totalmente automatizado que habla como tú, aprende como tú y agenda por ti.',
+      cards: [
+        { title: 'Respuesta en menos de 5 segundos', desc: 'Nuestro sistema interactúa con cada lead en menos de 5 segundos. En real estate, ser primero no es solo una ventaja: es la única forma de ganar.' },
+        { title: 'Calificación inteligente', desc: 'Nuestra IA hace las preguntas correctas: plazo, presupuesto y preaprobación. Solo hablas con leads listos para transaccionar.' },
+        { title: 'Agendamiento automatizado', desc: 'Sincroniza tu calendario y deja que Accelerate maneje la programación. Tu único trabajo es llegar a la cita listo para firmar.' },
+      ],
+    },
+    advantage: {
+      eyebrow: 'La ventaja Blossom',
+      titleLine1: 'Tu fuente de leads no importa.',
+      titleLine2: 'Tu velocidad sí.',
+      bullets: [
+        'Se integra con Zillow, Realtor.com, Facebook Ads y cualquier stack tecnológico que tengas.',
+        'Funciona 24/7, incluidos feriados y consultas a las 3 a. m.',
+        'Soporte multicanal (SMS, WhatsApp, email y más).',
+        'Sincronización directa con CRM sin ingreso manual.',
+      ],
+      imageAlt: 'Casa de lujo',
+      stat: 'Aumento en la tasa de conversión de lead a tour',
+    },
+    finalCta: {
+      titleLine1: 'Recuperamos los tratos',
+      titleLine2: 'que estás perdiendo ahora.',
+      description: 'Solo incorporamos a pocos clientes cada mes para garantizar que cada configuración esté optimizada para máxima conversión.',
+      button: 'Agenda tu llamada estratégica',
+      questions: [
+        '¿De dónde vienen la mayoría de tus leads?',
+        '¿Qué tan rápido estás respondiendo ahora?',
+        '¿Qué pasa después de que te escriben?',
+        '¿Cuántos leads entrantes recibes por semana?',
+      ],
+      inputPlaceholder: 'Escribe y presiona Enter',
+      bookingPrompt: 'Agenda tu llamada de configuración',
+      calendarTitle: 'Calendario de llamada de configuración Blossom',
+    },
+  },
+};
+
 /** * HERO ANIMATION COMPONENT */
-const HeroAnimation = ({ onPrimaryCtaClick }) => {
+const HeroAnimation = ({ onPrimaryCtaClick, copy }) => {
   const [visibleMessages, setVisibleMessages] = useState([]);
   const [typingState, setTypingState] = useState({ active: false, role: 'agent' });
   const [stage, setStage] = useState('intro_all'); 
@@ -28,33 +317,9 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
   const blossomBlue = "#007AFF"; 
   const appleBezier = [0.23, 1, 0.32, 1];
 
-  const chatMessages = [
-    { id: 1, sender: '+1 (555) 012-3456', type: 'text', content: 'Hi, is 108 Sky Tower still available?', role: 'client', delay: 800 },
-    { id: 2, sender: 'Blossom Agent', type: 'text', content: "It is! Beautiful property. Here's a look at the main living area.", role: 'agent', delay: 1200 },
-    { id: 3, sender: 'Blossom Agent', type: 'image', content: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800', role: 'agent', delay: 600 },
-    { id: 4, sender: 'Blossom Agent', type: 'text', content: 'Are you looking to move soon or just exploring options?', role: 'agent', delay: 1000 },
-    { id: 5, sender: '+1 (555) 012-3456', type: 'text', content: 'Trying to move in the next couple months.', role: 'client', delay: 800 },
-    { id: 6, sender: 'Blossom Agent', type: 'text', content: 'Got it. Have you already been pre-approved or still in that process?', role: 'agent', delay: 1200 },
-    { id: 7, sender: '+1 (555) 012-3456', type: 'text', content: 'Yeah I’m pre-approved already.', role: 'client', delay: 800 },
-    { id: 8, sender: 'Blossom Agent', type: 'text', content: 'Perfect — that helps a lot.', role: 'agent', delay: 1000 },
-    { id: 10, sender: 'Blossom Agent', type: 'text', content: 'Based on your timeline, it would be smart to see it this week.', role: 'agent', delay: 1400 },
-    { id: 11, sender: 'Blossom Agent', type: 'text', content: 'I have Thursday at 2pm or Friday at 10am open — which works better?', role: 'agent', delay: 1200 },
-    { id: 12, sender: '+1 (555) 012-3456', type: 'text', content: 'Thursday works. The place looks incredible.', role: 'client', delay: 1000 },
-    { id: 13, sender: 'Blossom Agent', type: 'text', content: 'Booked. See you Thursday!', role: 'agent', delay: 1400 },
-  ];
+  const chatMessages = copy.chatMessages;
 
-  const setupQuestions = [
-    "Where do most of your leads come from?",
-    "How fast are you replying right now?",
-    "What happens after they message you?",
-    "How many inbound leads you get per week?"
-  ];
-  const setupMicroResponses = [
-    "Got it — mapping channels...",
-    "Nice — timing that window...",
-    "Understood — risk checked...",
-    "Perfect — volume captured..."
-  ];
+
 
   useEffect(() => {
     if (!hasStarted) return;
@@ -77,7 +342,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
     };
     runSimulation();
     return () => { isMounted = false; };
-  }, [hasStarted]);
+  }, [hasStarted, chatMessages]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -96,11 +361,11 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
           <motion.div key="intro_all" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, filter: "blur(20px)", scale: 0.95 }} transition={{ duration: 1 }} className="flex flex-col items-center justify-center text-center max-w-5xl mt-12 md:mt-20">
             <div className="w-full max-w-4xl mb-12 px-4">
               <h2 className="text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] text-slate-800">
-                Leads choose the first agent who responds. <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-black">So we built a system that puts you first — every time.</span>
+                {copy.headlineLead} <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400 font-black">{copy.headlineAccent}</span>
               </h2>
             </div>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { setStage('chat'); setHasStarted(true); }} className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-xl md:text-2xl shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
-              Watch How This <br className="md:hidden" /> Gets You Deals
+              {copy.watchCtaTop} <br className="md:hidden" /> {copy.watchCtaBottom}
             </motion.button>
           </motion.div>
         )}
@@ -118,11 +383,11 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
             </div>
             <div className="flex-1 flex flex-col h-full overflow-hidden">
               <header className="px-6 md:px-8 py-5 border-b border-black/5 flex items-center justify-between bg-white/50 backdrop-blur-sm z-10">
-                <h1 className="text-lg md:text-xl font-bold tracking-tight">Lead Inbox</h1>
+                <h1 className="text-lg md:text-xl font-bold tracking-tight">{copy.inboxTitle}</h1>
                 <div className="flex items-center gap-3">
                   <div className="text-right hidden sm:block">
                     <p className="text-xs font-bold text-slate-500">+1 (555) 012-3456</p>
-                    <p style={{ color: blossomBlue }} className="text-[10px] font-bold uppercase tracking-widest">Active</p>
+                    <p style={{ color: blossomBlue }} className="text-[10px] font-bold uppercase tracking-widest">{copy.active}</p>
                   </div>
                   <img src={clientAvatar} className="w-9 h-9 rounded-full object-cover border border-white shadow-sm" alt="client" />
                 </div>
@@ -153,14 +418,14 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
                   )}</AnimatePresence>
                 </div>
               </div>
-              <footer className="px-8 py-5 bg-white/50 backdrop-blur-sm border-t border-black/5"><div className="w-full bg-white border border-black/5 rounded-full py-3 px-6 text-sm text-slate-400 shadow-sm">Type a response...</div></footer>
+              <footer className="px-8 py-5 bg-white/50 backdrop-blur-sm border-t border-black/5"><div className="w-full bg-white border border-black/5 rounded-full py-3 px-6 text-sm text-slate-400 shadow-sm">{copy.inputPlaceholder}</div></footer>
             </div>
           </motion.div>
         )}
 
         {stage === 'notification' && (
           <motion.div key="notif-container" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 1 }} className="flex flex-col items-center gap-6 max-w-3xl text-center mt-20">
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-400 font-medium text-xl italic mb-4">Get notified anywhere.</motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-400 font-medium text-xl italic mb-4">{copy.notificationIntro}</motion.p>
             <motion.div key="notif" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleBezier }} className="bg-white p-8 rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 flex items-center gap-10">
               <div className="relative w-12 h-12 flex items-center justify-center">
                 <AnimatePresence mode="wait">
@@ -173,12 +438,12 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
                 </AnimatePresence>
               </div>
               <div className="pr-4 z-10 text-left">
-                <h2 className="text-2xl font-bold tracking-tight text-slate-900">Booked House Tour</h2>
-                <p className="text-base text-slate-500 font-medium tracking-tight mt-1">Thursday at 2pm <span className="mx-2 text-slate-200">/</span> 108 Sky Tower</p>
+                <h2 className="text-2xl font-bold tracking-tight text-slate-900">{copy.bookedTitle}</h2>
+                <p className="text-base text-slate-500 font-medium tracking-tight mt-1">{copy.bookedTime} <span className="mx-2 text-slate-200">/</span> 108 Sky Tower</p>
               </div>
             </motion.div>
             <div className="flex flex-col items-center gap-3 mt-6">
-              {["Instant Response", "Qualifies the lead", "Pushes to a booking"].map((benefit, idx) => (
+              {copy.benefits.map((benefit, idx) => (
                 <motion.div key={benefit} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.5 + (idx * 0.8), duration: 0.8, ease: appleBezier }}>
                    <span className="text-2xl md:text-3xl font-bold tracking-tight text-slate-700/80">{benefit}</span>
                 </motion.div>
@@ -193,8 +458,8 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
               className="mt-8 px-8"
             >
               <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight leading-tight">
-                No matter where your <br className="md:hidden" /> leads come from, <br className="hidden md:block" />
-                <span className="text-blue-600">we integrate with <br className="md:hidden" /> every channel you have.</span>
+                {copy.channelLead} <br className="md:hidden" /> {copy.channelMiddle} <br className="hidden md:block" />
+                <span className="text-blue-600">{copy.channelAccent} <br className="md:hidden" /> {copy.channelAccentEnd}</span>
               </h3>
             </motion.div>
           </motion.div>
@@ -203,11 +468,11 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
         {stage === 'accelerate' && (
           <motion.div key="accelerate" className="flex flex-col items-center px-6 text-center max-w-4xl mt-12 md:mt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
             <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[1] mb-6">
-              Stop <br className="md:hidden" /> losing deals <br /> you already <span className="text-blue-600">paid for</span>.
+              {copy.accelerateLead} <br className="md:hidden" /> {copy.accelerateMiddle} <br /> {copy.accelerateBeforeAccent} <span className="text-blue-600">{copy.accelerateAccent}</span>.
             </motion.h3>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">Speed decides <br className="md:hidden" /> who wins the deal.</motion.p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-2xl md:text-3xl font-medium text-slate-400 tracking-tight mb-12">{copy.speed} <br className="md:hidden" /> {copy.speedEnd}</motion.p>
             <div className="flex flex-col items-center gap-6">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onPrimaryCtaClick} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">Start Capturing Every Lead</motion.button>
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onPrimaryCtaClick} className="px-16 py-6 bg-slate-900 text-white rounded-full font-bold text-2xl shadow-2xl">{copy.primaryCta}</motion.button>
               
               {/* NEW ONBOARDING LIMIT TEXT */}
               <div className="flex flex-col items-center gap-6 mt-4">
@@ -217,7 +482,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
                   transition={{ delay: 1.2, duration: 1 }}
                   className="text-sm font-bold uppercase tracking-[0.25em] text-black max-w-2xl"
                 >
-                  WE ONLY ONBOARD <br className="md:hidden" /> A FEW CLIENTS <br /> each month to set this up properly.
+                  {copy.onboardingLimit} <br className="md:hidden" /> {copy.onboardingLimitMiddle} <br /> {copy.onboardingLimitEnd}
                 </motion.p>
 
                 <motion.div
@@ -232,7 +497,7 @@ const HeroAnimation = ({ onPrimaryCtaClick }) => {
               </div>
 
               <button onClick={() => { setVisibleMessages([]); setStage('intro_all'); setHasStarted(false); setShowPing(false); setSetupStep(0); setSetupInput(""); setSetupAnswers([]); setIsAnalyzing(false); }} className="flex items-center gap-2 text-slate-400 font-bold hover:text-slate-600 transition-colors uppercase tracking-widest text-xs mt-8">
-                <RefreshCcw size={14} /> Replay Experience
+                <RefreshCcw size={14} /> {copy.replay}
               </button>
             </div>
           </motion.div>
@@ -249,7 +514,7 @@ const Avatar = ({ src, active = false }) => (
   </div>
 );
 
-const Navbar = ({ onGetStartedClick }) => {
+const Navbar = ({ onGetStartedClick, language, onLanguageChange, copy }) => {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -259,9 +524,23 @@ const Navbar = ({ onGetStartedClick }) => {
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-black/5 py-3' : 'bg-transparent py-5'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
         <div className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-slate-900">blossom accelerate</div>
-        <button onClick={onGetStartedClick} className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg active:scale-95 transition-transform">Get Started</button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button onClick={onGetStartedClick} className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg active:scale-95 transition-transform whitespace-nowrap">{copy.getStarted}</button>
+          <label className="sr-only" htmlFor="language-selector">{copy.languageLabel}</label>
+          <select
+            id="language-selector"
+            value={language}
+            onChange={(event) => onLanguageChange(event.target.value)}
+            className="h-9 rounded-full border border-slate-200 bg-white/90 px-3 text-xs sm:text-sm font-black text-slate-700 shadow-lg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+            aria-label={copy.languageLabel}
+          >
+            {Object.values(LANGUAGES).map((option) => (
+              <option key={option.code} value={option.code}>{`${option.shortLabel} — ${option.label}`}</option>
+            ))}
+          </select>
+        </div>
       </div>
     </nav>
   );
@@ -277,7 +556,7 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
   </div>
 );
 
-const VisualStage = ({ activeId }) => {
+const VisualStage = ({ activeId, copy }) => {
   const containerVariants = {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
@@ -302,24 +581,20 @@ const VisualStage = ({ activeId }) => {
                 </div>
               </div>
             </div>
-            <span className="text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-50 px-6 py-2 rounded-full border border-blue-100 shadow-sm">Syncing All Inlets</span>
+            <span className="text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-50 px-6 py-2 rounded-full border border-blue-100 shadow-sm">{copy.syncing}</span>
           </motion.div>
         );
       case "02":
         return (
           <motion.div key="v2" variants={containerVariants} initial="initial" animate="animate" exit="exit" className="w-full h-full flex items-center justify-center p-12">
             <div className="w-full max-w-[340px] space-y-5">
-              {[
-                { label: "Equity Estimate", val: "High ($200k+)", color: "bg-green-500" },
-                { label: "Buyer Intent Score", val: "94/100", color: "bg-blue-500" },
-                { label: "Immediate Timeline", val: "Ready Now", color: "bg-purple-500" }
-              ].map((item, idx) => (
+              {copy.metrics.map((item, idx) => (
                 <motion.div key={idx} initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: idx * 0.15 }} className="bg-white p-5 rounded-2xl shadow-lg border border-slate-50 flex items-center justify-between">
                   <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em]">{item.label}</span>
                     <span className="text-sm font-black text-slate-900">{item.val}</span>
                   </div>
-                  <div className={`w-8 h-2 rounded-full ${item.color} shadow-sm`} />
+                  <div className={`w-8 h-2 rounded-full ${['bg-green-500', 'bg-blue-500', 'bg-purple-500'][idx]} shadow-sm`} />
                 </motion.div>
               ))}
             </div>
@@ -344,7 +619,7 @@ const VisualStage = ({ activeId }) => {
                   <div className="w-12 h-12 rounded-full bg-blue-600 border-4 border-white shadow-xl flex items-center justify-center text-white font-black text-sm">AI</div>
                 </div>
                 <div className="h-8 w-[1px] bg-slate-100" />
-                <p className="text-xs font-bold text-slate-500 italic">"Follow-up that feels human..."</p>
+                <p className="text-xs font-bold text-slate-500 italic">{copy.followUp}</p>
              </div>
           </motion.div>
         );
@@ -356,8 +631,8 @@ const VisualStage = ({ activeId }) => {
                    <Target size={40} />
                 </div>
                 <div className="text-center">
-                   <p className="text-xl font-black text-slate-900">Meeting Scheduled</p>
-                   <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Pushed to CRM</p>
+                   <p className="text-xl font-black text-slate-900">{copy.meetingScheduled}</p>
+                   <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">{copy.pushedToCrm}</p>
                 </div>
              </div>
           </motion.div>
@@ -380,7 +655,7 @@ const VisualStage = ({ activeId }) => {
                     <div className="p-2 bg-green-50 rounded-lg text-green-600"><TrendingUp size={16}/></div>
                     <p className="text-lg font-black text-slate-900">4.2x</p>
                  </div>
-                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">GCI LIFT</p>
+                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">{copy.gciLift}</p>
               </div>
             </div>
           </motion.div>
@@ -399,56 +674,26 @@ const VisualStage = ({ activeId }) => {
   );
 };
 
-const StepsSection = () => {
+const StepsSection = ({ copy, visualCopy }) => {
   const [activeStep, setActiveStep] = useState("01");
 
   const handleStepTap = (stepId) => {
     setActiveStep((current) => (current === stepId ? null : stepId));
   };
 
-  const steps = [
-    {
-      id: "01",
-      title: "Omni-Channel Capture",
-      desc: "Stop manually entering leads. We instantly sync every prospect from Zillow, Meta, Google, and your website into one unified intake engine.",
-      icon: <Globe size={24} />
-    },
-    {
-      id: "02",
-      title: "Intelligent Qualification",
-      desc: "Not all leads are created equal. Our AI analyzes behavioral data and public records to filter for serious buyers and high-equity sellers.",
-      icon: <Cpu size={24} />
-    },
-    {
-      id: "03",
-      title: "Conversational Nurture",
-      desc: "We deploy persistent, multi-step follow-up sequences across SMS and Email that sound indistinguishable from a top-producing agent.",
-      icon: <Repeat size={24} />
-    },
-    {
-      id: "04",
-      title: "Seamless Conversion",
-      desc: "Once a lead is qualified, we push the high-intent prospect directly into your CRM and notify you via Slack or Mobile to close the deal.",
-      icon: <Target size={24} />
-    },
-    {
-      id: "05",
-      title: "Performance Optimization",
-      desc: "Monitor your pipeline velocity in real-time. Our deep analytics suite identifies bottlenecks and highlights your most profitable lead sources.",
-      icon: <PieChart size={24} />
-    }
-  ];
+  const stepIcons = [<Globe size={24} />, <Cpu size={24} />, <Repeat size={24} />, <Target size={24} />, <PieChart size={24} />];
+  const steps = copy.items.map((step, index) => ({ ...step, icon: stepIcons[index] }));
 
   return (
     <section className="bg-white py-32 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-left max-w-2xl">
           <div className="inline-block px-5 py-1.5 bg-slate-50 border border-slate-100 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] shadow-sm mb-6">
-            Core Infrastructure
+            {copy.eyebrow}
           </div>
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">The Architecture <br /> of Success.</h2>
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 leading-[0.95]">{copy.titleLine1} <br /> {copy.titleLine2}</h2>
           <p className="text-xl text-slate-500 font-medium leading-relaxed">
-            Five specialized layers working in perfect harmony to ensure no dollar is ever left on the table.
+            {copy.description}
           </p>
         </div>
 
@@ -487,14 +732,14 @@ const StepsSection = () => {
                 )}
                 {activeStep === step.id && (
                   <div className="mt-2 w-full basis-full lg:hidden">
-                    <VisualStage activeId={step.id} />
+                    <VisualStage activeId={step.id} copy={visualCopy} />
                   </div>
                 )}
               </motion.div>
             ))}
           </div>
           <div className="lg:col-span-6 hidden lg:block">
-            <VisualStage activeId={activeStep} />
+            <VisualStage activeId={activeStep} copy={visualCopy} />
           </div>
         </div>
       </div>
@@ -502,7 +747,7 @@ const StepsSection = () => {
   );
 };
 
-const MathSection = () => {
+const MathSection = ({ copy }) => {
   const [commission, setCommission] = useState(12500);
   const [deals, setDeals] = useState(24);
   const recoveryDeals = 12;
@@ -511,7 +756,7 @@ const MathSection = () => {
   const liftGCI = commission * recoveryDeals;
   const targetGCI = currentGCI + liftGCI;
 
-  const formatCurrency = (num) => new Intl.NumberFormat('en-US', {
+  const formatCurrency = (num) => new Intl.NumberFormat(copy.locale, {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0,
@@ -524,23 +769,23 @@ const MathSection = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-5 py-2 bg-white text-slate-600 rounded-full text-sm font-bold mb-8 uppercase tracking-widest shadow-sm">
               <TrendingUp size={18} />
-              <span>Yield Optimization</span>
+              <span>{copy.eyebrow}</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter mb-10 leading-[0.95]">The Math of <br className="hidden sm:block" /> Efficiency.</h2>
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter mb-10 leading-[0.95]">{copy.titleLine1} <br className="hidden sm:block" /> {copy.titleLine2}</h2>
             <p className="text-lg sm:text-xl text-slate-500 font-medium leading-relaxed mb-10 sm:mb-12 max-w-xl">
-              Most teams focus on ad spend. We focus on Yield. Adjust the model below to calculate your specific revenue expansion.
+              {copy.description}
             </p>
             <div className="space-y-8 sm:space-y-12">
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex justify-between items-end">
-                  <label className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Avg. Commission</label>
+                  <label className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">{copy.avgCommission}</label>
                   <span className="text-2xl sm:text-3xl font-bold text-slate-900">{formatCurrency(commission)}</span>
                 </div>
                 <input type="range" min="5000" max="50000" step="500" value={commission} onChange={(e) => setCommission(Number(e.target.value))} className="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" />
               </div>
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex justify-between items-end">
-                  <label className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Annual Deals (Current)</label>
+                  <label className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">{copy.annualDeals}</label>
                   <span className="text-2xl sm:text-3xl font-bold text-slate-900">{deals}</span>
                 </div>
                 <input type="range" min="5" max="200" step="1" value={deals} onChange={(e) => setDeals(Number(e.target.value))} className="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" />
@@ -549,24 +794,24 @@ const MathSection = () => {
           </div>
           <div className="relative">
             <div className="bg-slate-900 rounded-[28px] sm:rounded-[56px] p-5 sm:p-10 md:p-16 text-white shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] relative z-10">
-              <h3 className="text-xl sm:text-2xl font-bold text-blue-400 mb-8 sm:mb-12 flex items-center gap-3 sm:gap-4"><Calculator size={24} /> 12-Month Projected Lift</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-blue-400 mb-8 sm:mb-12 flex items-center gap-3 sm:gap-4"><Calculator size={24} /> {copy.projectedLift}</h3>
               <div className="space-y-6 sm:space-y-10">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 pb-6 sm:pb-10 border-b border-white/10">
-                  <span className="text-slate-400 font-medium text-base sm:text-lg">Current Annual GCI</span>
+                  <span className="text-slate-400 font-medium text-base sm:text-lg">{copy.currentGci}</span>
                   <span className="text-3xl font-bold">{formatCurrency(currentGCI)}</span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 pb-6 sm:pb-10 border-b border-white/10">
                   <div className="flex flex-col">
-                    <span className="text-slate-400 font-medium text-base sm:text-lg">Blossom Recovery</span>
-                    <span className="text-xs font-bold text-green-400 uppercase tracking-widest mt-1">+{recoveryDeals} Addtl. Deals</span>
+                    <span className="text-slate-400 font-medium text-base sm:text-lg">{copy.recovery}</span>
+                    <span className="text-xs font-bold text-green-400 uppercase tracking-widest mt-1">+{recoveryDeals} {copy.additionalDeals}</span>
                   </div>
                   <span className="text-3xl sm:text-4xl font-black text-green-400">+{formatCurrency(liftGCI)}</span>
                 </div>
                 <div className="pt-4 sm:pt-6">
-                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.22em] sm:tracking-[0.3em] text-blue-400 block mb-3 sm:mb-4">Total GCI Potential</span>
+                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.22em] sm:tracking-[0.3em] text-blue-400 block mb-3 sm:mb-4">{copy.totalPotential}</span>
                   <div className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[1]">{formatCurrency(targetGCI)}</div>
                 </div>
-                <button className="w-full bg-blue-600 hover:bg-blue-500 py-4 sm:py-8 rounded-[18px] sm:rounded-[32px] font-black text-base sm:text-2xl transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] mt-6 sm:mt-10">Apply for Installation</button>
+                <button className="w-full bg-blue-600 hover:bg-blue-500 py-4 sm:py-8 rounded-[18px] sm:rounded-[32px] font-black text-base sm:text-2xl transition-all shadow-2xl shadow-blue-600/30 active:scale-[0.98] mt-6 sm:mt-10">{copy.cta}</button>
               </div>
             </div>
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl" />
@@ -579,6 +824,8 @@ const MathSection = () => {
 };
 
 const LandingPage = () => {
+  const [language, setLanguage] = useState('en');
+  const copy = TRANSLATIONS[language];
   const [setupStarted, setSetupStarted] = useState(false);
   const [setupStep, setSetupStep] = useState(0);
   const [setupInput, setSetupInput] = useState("");
@@ -587,12 +834,25 @@ const LandingPage = () => {
   const [animatedQuestionText, setAnimatedQuestionText] = useState("");
   const [isQuestionTyping, setIsQuestionTyping] = useState(false);
 
-  const setupQuestions = [
-    "Where do most of your leads come from?",
-    "How fast are you replying right now?",
-    "What happens after they message you?",
-    "How many inbound leads you get per week?"
-  ];
+  const setupQuestions = copy.finalCta.questions;
+  const problemIcons = [<Zap />, <Layers />, <ShieldCheck />, <BarChart3 />, <Target />, <MessageSquare />];
+
+  useEffect(() => {
+    const savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (savedLanguage && TRANSLATIONS[savedLanguage]) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+  }, [language]);
+
+  const handleLanguageChange = (nextLanguage) => {
+    if (!TRANSLATIONS[nextLanguage]) return;
+    setLanguage(nextLanguage);
+  };
 
   const scrollToDealRecovery = () => {
     document.getElementById("deal-recovery")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -633,35 +893,28 @@ const LandingPage = () => {
       window.clearInterval(typeInterval);
       setIsQuestionTyping(false);
     };
-  }, [setupStarted, setupStep]);
+  }, [setupStarted, setupStep, setupQuestions]);
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Navbar onGetStartedClick={scrollToDealRecovery} />
+      <Navbar onGetStartedClick={scrollToDealRecovery} language={language} onLanguageChange={handleLanguageChange} copy={copy.nav} />
       
       {/* Hero Section */}
       <section className="pt-20 md:pt-32">
-        <HeroAnimation onPrimaryCtaClick={scrollToDealRecovery} />
+        <HeroAnimation onPrimaryCtaClick={scrollToDealRecovery} copy={copy.hero} />
       </section>
 
       {/* Problems Section */}
       <section className="py-20 md:py-32 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20 text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-7xl font-extrabold tracking-tighter mb-8">Your Pipeline Is <br className="hidden sm:block" /> Leaking Revenue.</h2>
-            <p className="text-slate-400 text-2xl max-w-3xl mx-auto font-medium leading-relaxed italic">"Most real estate teams don't have a lead problem—they have an infrastructure problem."</p>
+            <h2 className="text-3xl sm:text-4xl md:text-7xl font-extrabold tracking-tighter mb-8">{copy.problems.titleLine1} <br className="hidden sm:block" /> {copy.problems.titleLine2}</h2>
+            <p className="text-slate-400 text-2xl max-w-3xl mx-auto font-medium leading-relaxed italic">{copy.problems.quote}</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            {[
-              { title: "Slow Response", desc: "Leads go cold within 5 minutes. Most agents wait hours. Blossom responds in under 90 seconds, 24/7.", icon: <Zap /> },
-              { title: "Zero Follow-up", desc: "80% of sales require 5+ follow-ups. Our engine never forgets a name or timeline.", icon: <Layers /> },
-              { title: "Unqualified Volume", desc: "Stop wasting hours on window shoppers. We verify intent, timeline, and budget before you pick up the phone.", icon: <ShieldCheck /> },
-              { title: "Missed Calls", desc: "Every missed call is a $12k+ commission lost. Blossom provides an institutional intake for every ring.", icon: <BarChart3 /> },
-              { title: "Manual Scaling", desc: "Your growth is capped by human capacity. Our system has infinite bandwidth for infinite leads.", icon: <Target /> },
-              { title: "Disjointed Data", desc: "Deals slip through messy spreadsheets. We provide a clean, high-performance operating system.", icon: <MessageSquare /> },
-            ].map((item, i) => (
-              <div key={i} className="p-6 sm:p-8 md:p-12 border border-black/5 bg-slate-50/40 rounded-[56px] hover:bg-white hover:shadow-2xl transition-all duration-500 group">
-                <div className="mb-10 text-blue-600 group-hover:scale-110 transition-transform duration-300">{React.cloneElement(item.icon, { size: 40, strokeWidth: 1.5 })}</div>
+            {copy.problems.cards.map((item, i) => (
+              <div key={item.title} className="p-6 sm:p-8 md:p-12 border border-black/5 bg-slate-50/40 rounded-[56px] hover:bg-white hover:shadow-2xl transition-all duration-500 group">
+                <div className="mb-10 text-blue-600 group-hover:scale-110 transition-transform duration-300">{React.cloneElement(problemIcons[i], { size: 40, strokeWidth: 1.5 })}</div>
                 <h3 className="text-2xl sm:text-3xl font-black mb-4 sm:mb-6 tracking-tight">{item.title}</h3>
                 <p className="text-slate-500 text-base sm:text-lg leading-relaxed font-medium">{item.desc}</p>
               </div>
@@ -671,22 +924,22 @@ const LandingPage = () => {
       </section>
 
       {/* Architecture Steps Section */}
-      <StepsSection />
+      <StepsSection copy={copy.steps} visualCopy={copy.visuals} />
 
       {/* Math Calculator Section */}
-      <MathSection />
+      <MathSection copy={copy.math} />
 
       {/* Features Section */}
       <section id="features" className="py-20 md:py-32 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mb-24">
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-10 leading-[0.95]">Designed to capture, <br className="hidden sm:block" /> qualify, and convert.</h2>
-            <p className="text-2xl text-slate-500 font-medium leading-relaxed">We don't just send notifications. We build a fully automated agent that talks like you, learns like you, and books for you.</p>
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-10 leading-[0.95]">{copy.features.titleLine1} <br className="hidden sm:block" /> {copy.features.titleLine2}</h2>
+            <p className="text-2xl text-slate-500 font-medium leading-relaxed">{copy.features.description}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <FeatureCard icon={Zap} title="Sub-5 Second Response" description="Our system engages every lead in under 5 seconds. In real estate, being first isn't just an advantage—it's the only way to win." />
-            <FeatureCard icon={Target} title="Intelligent Qualification" description="Our AI asks the right questions: Timeline, Budget, and Pre-approval. You only talk to leads that are ready to transact." />
-            <FeatureCard icon={BarChart3} title="Automated Booking" description="Sync your calendar and let Accelerate handle the scheduling. Your only job is showing up to the appointment ready to sign." />
+            <FeatureCard icon={Zap} title={copy.features.cards[0].title} description={copy.features.cards[0].desc} />
+            <FeatureCard icon={Target} title={copy.features.cards[1].title} description={copy.features.cards[1].desc} />
+            <FeatureCard icon={BarChart3} title={copy.features.cards[2].title} description={copy.features.cards[2].desc} />
           </div>
         </div>
       </section>
@@ -698,16 +951,11 @@ const LandingPage = () => {
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-bold mb-8">
                 <ShieldCheck size={16} />
-                <span>The Blossom Advantage</span>
+                <span>{copy.advantage.eyebrow}</span>
               </div>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-8 leading-none">Your lead source doesn't matter. <br className="hidden sm:block" /> Your speed does.</h2>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter mb-8 leading-none">{copy.advantage.titleLine1} <br className="hidden sm:block" /> {copy.advantage.titleLine2}</h2>
               <div className="space-y-4 sm:space-y-6">
-                {[
-                  "Integrates with Zillow, Realtor.com, Facebook Ads, and any tech stack you have.",
-                  "Works 24/7, including holidays and 3 AM inquiries.",
-                  "Multi-channel support (SMS, WhatsApp, Email and more).",
-                  "Direct-to-CRM syncing with no manual entry."
-                ].map((item, i) => (
+                {copy.advantage.bullets.map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
                     <div className="mt-1 bg-green-500/10 text-green-600 p-1 rounded-full">
                       <CheckCircle2 size={20} />
@@ -721,7 +969,7 @@ const LandingPage = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent rounded-[60px]" />
               <img 
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" 
-                alt="Luxury Home" 
+                alt={copy.advantage.imageAlt}
                 className="w-full h-auto rounded-[60px] shadow-2xl"
               />
               <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-xl border border-black/5 max-w-xs">
@@ -731,7 +979,7 @@ const LandingPage = () => {
                   </div>
                   <div className="text-3xl font-black">+420%</div>
                 </div>
-                <p className="font-bold text-slate-500 leading-tight uppercase tracking-widest text-[10px]">Increase in lead-to-tour conversion rate</p>
+                <p className="font-bold text-slate-500 leading-tight uppercase tracking-widest text-[10px]">{copy.advantage.stat}</p>
               </div>
             </div>
           </div>
@@ -742,10 +990,10 @@ const LandingPage = () => {
       <section id="deal-recovery" className="py-14 md:py-20 px-4 sm:px-6 bg-white border-t border-black/5">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-tight text-slate-900">
-            We recover the deals <br className="hidden sm:block" /> you’re currently losing.
+            {copy.finalCta.titleLine1} <br className="hidden sm:block" /> {copy.finalCta.titleLine2}
           </h2>
           <p className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-8 max-w-2xl mx-auto font-medium">
-            We only onboard a few clients each month to ensure every setup is optimized for maximum conversion.
+            {copy.finalCta.description}
           </p>
           <div className="flex flex-col justify-center items-center gap-6 w-full">
             {!setupStarted ? (
@@ -756,7 +1004,7 @@ const LandingPage = () => {
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
               >
-                Book Your Strategy Call <ArrowRight size={24} />
+                {copy.finalCta.button} <ArrowRight size={24} />
               </motion.button>
             ) : setupStep < setupQuestions.length ? (
               <motion.div
@@ -789,7 +1037,7 @@ const LandingPage = () => {
                       setSetupInput("");
                       setSetupStep((prev) => prev + 1);
                     }}
-                    placeholder={inputFocused ? "" : "Type and press Enter"}
+                    placeholder={inputFocused ? "" : copy.finalCta.inputPlaceholder}
                     className="w-full max-w-xl mx-auto block bg-transparent border-0 border-b border-slate-300 px-1 py-2 text-center text-base md:text-xl font-light text-slate-700 focus:outline-none focus:border-slate-900 transition-colors"
                   />
                 )}
@@ -801,11 +1049,11 @@ const LandingPage = () => {
                 className="w-full max-w-5xl"
               >
                 <p className="text-center text-2xl md:text-3xl font-thin tracking-tight text-slate-900 mb-6">
-                  Book your setup call
+                  {copy.finalCta.bookingPrompt}
                 </p>
                 <div className="w-full h-[760px] border border-slate-200 rounded-2xl overflow-hidden shadow-xl">
                   <iframe
-                    title="Blossom Setup Call Calendar"
+                    title={copy.finalCta.calendarTitle}
                     src={calBookingUrl}
                     className="w-full h-full"
                   />

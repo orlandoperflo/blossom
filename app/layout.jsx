@@ -2,7 +2,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Blossom Accelerate',
-  description: 'Lightning-fast lead capture and conversion for Ultra-luxury Real Estate',
+  description: 'Lightning-fast lead capture and conversion for ultra-luxury real estate. Captura y conversión de leads ultrarrápida para bienes raíces de ultralujo.',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
